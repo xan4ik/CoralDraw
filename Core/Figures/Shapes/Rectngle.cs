@@ -2,10 +2,10 @@
 {
     public class Rectngle : Figure
     {
-        public Rectngle(Point location, Size size) : base(location, size)
+        public Rectngle(Snapshot snapshot) : base(snapshot)
         { }
 
-        public Rectngle() : base(new Point(), new Size())
+        public Rectngle() : base(new Snapshot())
         { }
 
         public override IFigure CreateClone()

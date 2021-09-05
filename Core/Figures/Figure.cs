@@ -5,9 +5,9 @@ namespace Core
     public abstract class Figure : IFigure, IFigurePrototype
     {
         private Transform transform;
-        protected Figure(Point location, Size size)
+        protected Figure(Snapshot snapshot)
         {
-            transform = new Transform(location, size);
+            transform = new Transform(snapshot);
         }
 
         public Transform GetTransform() 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Core.Figures
+namespace Core
 {
     public class Composite : IFigure, IFigurePrototype
     {

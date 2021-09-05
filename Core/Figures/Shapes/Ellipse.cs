@@ -2,10 +2,10 @@
 {
     public class Ellipse : Figure
     {
-        public Ellipse(Point location, Size size) : base(location, size)
+        public Ellipse(Snapshot snapshot) : base(snapshot)
         { }
 
-        public Ellipse() : base(new Point(), new Size()) 
+        public Ellipse() : base(new Snapshot()) 
         { }
 
         public override IFigure CreateClone()

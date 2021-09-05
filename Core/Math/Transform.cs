@@ -5,10 +5,10 @@
         private Point location;
         private Size size;
 
-        public Transform(Point location, Size size)
+        public Transform(Snapshot snapshot)
         {
-            this.location = location;
-            this.size = size;
+            this.location = snapshot.Location;
+            this.size = snapshot.Size;
         }
 
         public Snapshot CreateSnapshot() 
