@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Core.Figures
 {
-    class Composite : IFigure
+    public class Composite : IFigure, IFigurePrototype
     {
         private List<IFigure> figures;
         public Composite(params IFigure[] figures)
@@ -63,6 +64,48 @@ namespace Core.Figures
             foreach (var figure in figures) 
             {
                 figure.Draw(adapter, visitor);
+            }
+        }
+
+        public Snapshot GetFigureSnapshot()
+        {
+            var snapshots = GetAllSnapshots();
+            var minX = snapshots.Min(snap => snap.Location.X);
+            var minY = snapshots.Min(snap => snap.Location.Y);
+            var maxX = snapshots.Max(snap => snap.Location.X + snap.Size.Width);
+            var maxY = snapshots.Max(snap => snap.Location.Y + snap.Size.Height);
+            var size = new Size(){
+                Width = Math.Abs(maxX - minX),
+                Height = Math.Abs(maxY - minY)};
+            var location = new Point(minX, minY);
+
+            return new Snapshot(location, size); 
+        }
+
+        private IEnumerable<Snapshot> GetAllSnapshots() 
+        {
+            foreach (var figure in figures) 
+            {
+                yield return figure.GetFigureSnapshot();
+            }
+        }
+
+        //TODO: Ask for it
+        public IFigure CreateClone()
+        {
+            var composite = new Composite();
+            foreach (var figure in figures) 
+            {
+                AddFigureToClone(composite, figure);
+            }
+            return composite;
+        }
+
+        private void AddFigureToClone(Composite composite, IFigure figure)
+        {
+            if (figure is IFigurePrototype) 
+            {
+                composite.AddFigure(((IFigurePrototype)figure).CreateClone());
             }
         }
     }

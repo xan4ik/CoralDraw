@@ -2,17 +2,27 @@
 
 namespace Core
 {
-    abstract class Figure : IFigure
+    public abstract class Figure : IFigure, IFigurePrototype
     {
         private Transform transform;
-        protected Figure() 
+        protected Figure(Point location, Size size)
         {
-            transform = new Transform();
+            transform = new Transform(location, size);
+        }
+
+        public Transform GetTransform() 
+        {
+            return transform;
         }
 
         public void Move(float deltaX, float deltaY)
         {
             transform.Relocate(deltaX, deltaY);
+        }
+    
+        public Snapshot GetFigureSnapshot()
+        {
+            return transform.CreateSnapshot();
         }
 
         public void Resize(float deltaWigth, float deltaHeight)
@@ -20,19 +30,9 @@ namespace Core
             transform.Resize(deltaWigth, deltaHeight);
         }
 
-        public void Draw(IDrawerFigureVisitor visitor) 
-        {
-            try
-            {
-                OnDrawInvoke(visitor, transform);
-            }
-            catch (Exception exception) 
-            {
-                throw new DrawMethodException(visitor, exception);
-            }
-        }
+        public abstract void Draw(IDrawerAdapter adapter, IDrawerFigureVisitor visitor);
+        public abstract IFigure CreateClone();
 
-        protected abstract void OnDrawInvoke(IDrawerFigureVisitor visitor, Transform snapShot);
     }
 
 
