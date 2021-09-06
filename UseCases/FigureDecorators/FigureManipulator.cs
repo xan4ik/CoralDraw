@@ -9,7 +9,7 @@ namespace UseCases
     {
         private class DummyFigure : IFigure
         {
-            public void Draw(IDrawerAdapter adapter, IDrawerFigureVisitor visitor)
+            public void Draw(IDrawerAdapter adapter)
             {
                 return;
             }
@@ -29,10 +29,15 @@ namespace UseCases
                 return;
             }
         }
-        private readonly DummyFigure dummy = new DummyFigure();
+        private static readonly DummyFigure dummy;
 
         private Dictionary<Corner, ITouchAction> handlers;
         private IFigure attachedFigure;
+
+        static FigureManipulator() 
+        {
+            dummy = new DummyFigure();
+        }
 
         public FigureManipulator()
         {
@@ -63,19 +68,19 @@ namespace UseCases
             return;
         }
 
-        public void Resize(float deltaWigth, float deltaHeight)
+        public void Draw(IDrawerAdapter adapter)
         {
-            return;
-        }
-
-        public void Draw(IDrawerAdapter adapter, IDrawerFigureVisitor visitor)
-        {
-            attachedFigure.Draw(adapter, visitor);
+            attachedFigure.Draw(adapter);
         }
 
         public void HandleTouch(Point point)
         {
             
+        }
+
+        public void Resize(float deltaWigth, float deltaHeight)
+        {
+            return;
         }
     }
 
@@ -86,7 +91,7 @@ namespace UseCases
 
     public enum Corner 
     {
-        Highleft,
+        HighLeft,
         HighRight,
         LowLeft,
         LowRight,
@@ -97,7 +102,28 @@ namespace UseCases
     public interface ITouchAction 
     {
         Corner Corner { get; }
-        bool IsTouch(IFigure figure);
+        bool IsTouch(Snapshot pose, Point touch);
         void Handle(IFigure figure, float deltaX, float deltaY);
+    }
+
+    class HighLeftTouchHandler : ITouchAction
+    {
+        public Corner Corner 
+        {
+            get 
+            {
+                return Corner.HighLeft;
+            }
+        }
+
+        public bool IsTouch(IFigure figure)
+        {
+            return true;
+        }
+
+        public void Handle(IFigure figure, float deltaX, float deltaY)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

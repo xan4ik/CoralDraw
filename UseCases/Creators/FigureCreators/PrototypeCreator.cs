@@ -7,9 +7,9 @@ namespace UseCases
 {
     public class PrototypeCreator : IFigureCreator
     {
-        private IFigurePrototype prototype;
+        private IPrototype<IFigure> prototype;
 
-        public PrototypeCreator(IFigurePrototype prototype)
+        public PrototypeCreator(IPrototype<IFigure> prototype)
         {
             this.prototype = prototype;
         }
