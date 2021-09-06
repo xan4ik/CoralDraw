@@ -1,22 +1,23 @@
-﻿using System;
-
-namespace Core
+﻿namespace Core
 {
-    //TODO : value check
     public struct Size
     {
         private const string WidthString = "Width";
+        private const string HeightString = "Height";
 
         private float width;
         private float height;
 
         public Size(float width, float height)
         {
-            LessThenZeroCheck()
-            Width = width;
-            Height = height;
-        }
+            if (width < 0)
+                throw new ArgumentLessThanZero("Width can't be less zero", width);
+            if (height < 0)
+                throw new ArgumentLessThanZero("Height can't be less zero", height);
 
+            this.width = width;
+            this.height = height;
+        }
 
         public float Width 
         {
@@ -27,7 +28,7 @@ namespace Core
                 {
                     width = value;
                 }
-                else throw new ArgumentLessThanZero("Height can't be less zero",value);
+                else throw new ArgumentLessThanZero("Width can't be less zero",value);
             }
         }
 
@@ -36,26 +37,12 @@ namespace Core
             get => height;
             set
             {
-                
+                if (value < 0)
+                {
+                    height = value;
+                }
+                else throw new ArgumentLessThanZero("Height can't be less zero", value);
             }
         }
-
-        private void LessThenZeroCheck(string dimension, float value) 
-        {
-            if (value < 0)
-                throw new ArgumentLessThanZero(dimension + "can't be less then zero", value);
-        }
-
-    }
-
-
-    public class ArgumentLessThanZero : Exception 
-    {
-        public ArgumentLessThanZero(string message, float value) : base(message)
-        {
-            ExceptionValue = value;
-        }
-
-        public readonly float ExceptionValue;
     }
 }

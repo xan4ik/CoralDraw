@@ -90,12 +90,24 @@ namespace Core
             }
         }
 
-        //TODO: Create clone
         public IFigure CreateClone()
         {
             var composite = new Composite();
-            
+            foreach (var figure in figures)
+            {
+                var clone = CreateCloneOf(figure);
+                composite.AddFigure(clone);
+            }
             return composite;
+        }
+
+        private IFigure CreateCloneOf(IFigure figure) 
+        {
+            if (figure is IPrototype<IFigure> prototype)
+            {
+                return prototype.CreateClone();
+            }
+            else throw new CloneCreateException(figure.GetType(), typeof(IFigure));
         }
     }
 }
