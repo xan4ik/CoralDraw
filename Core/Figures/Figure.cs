@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Core
+﻿namespace Core
 {
     public abstract class Figure : IFigure, IPrototype<IFigure>
     {
@@ -49,18 +47,6 @@ namespace Core
 
         protected abstract IFigure OnCreateClone(IDrawerFigureVisitor clone);
 
-    }
-
-    public class CloneCreateException : Exception 
-    {
-        public CloneCreateException(Type type, Type prototype ) : base($"Type: {type.ToString()} have to implement IPrototype<{prototype.ToString()}> interface")
-        {
-            RequiredPrototype = prototype;            
-            Type = type;
-        }
-
-        public readonly Type Type;
-        public readonly Type RequiredPrototype;
     }
 
 
