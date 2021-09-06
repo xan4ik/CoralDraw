@@ -31,7 +31,7 @@ namespace UseCases
         }
         private static readonly DummyFigure dummy;
 
-        private Dictionary<Corner, ITouchAction> handlers;
+        private Dictionary<Corner, IDragAction> handlers;
         private IFigure attachedFigure;
 
         static FigureManipulator() 
@@ -41,7 +41,7 @@ namespace UseCases
 
         public FigureManipulator()
         {
-            handlers = new Dictionary<Corner, ITouchAction>()
+            handlers = new Dictionary<Corner, IDragAction>()
             {
 
 
@@ -99,16 +99,37 @@ namespace UseCases
         None
     }
 
-    public interface ITouchAction 
+    public interface IDragAction 
     {
         Corner Corner { get; }
-        bool IsTouch(Snapshot pose, Point touch);
+        bool IsTouch(Snapshot figurePose, Point touch);
         void Handle(IFigure figure, float deltaX, float deltaY);
     }
 
-    class HighLeftTouchHandler : ITouchAction
+    abstract class TouchHandler : IDragAction
     {
-        public Corner Corner 
+        protected readonly Size handlerSize;
+        protected TouchHandler(Size size)
+        {
+            this.handlerSize = size;
+        } 
+        public abstract Corner Corner { get; }
+        public bool IsTouch(Snapshot figurePose, Point touch)
+        {
+            var handlerSnapshot = GetHandlerSnapshotFrom(figurePose);
+            return handlerSnapshot.ContainsPoint(touch);
+        }
+
+        protected abstract Snapshot GetHandlerSnapshotFrom(Snapshot figurePose);
+        public abstract void Handle(IFigure figure, float deltaX, float deltaY);
+    }
+
+    class HighLeftHandler : TouchHandler
+    {
+        public HighLeftHandler(Size size) : base(size)
+        { }
+
+        public override Corner Corner 
         {
             get 
             {
@@ -116,14 +137,140 @@ namespace UseCases
             }
         }
 
-        public bool IsTouch(IFigure figure)
+        public override void Handle(IFigure figure, float deltaX, float deltaY)
         {
-            return true;
+            figure.Move(deltaX, deltaY);
+            figure.Resize(-deltaX, -deltaY);
         }
 
+        protected override Snapshot GetHandlerSnapshotFrom(Snapshot figurePose)
+        {
+            return new Snapshot(figurePose.Location, handlerSize);
+        }
+    }
+    class HighRightHandler : TouchHandler
+    {
+        public HighRightHandler(Size size) : base(size)
+        { }
+
+        public override Corner Corner 
+        {
+            get 
+            {
+                return Corner.HighRight;
+            }
+        }
+
+        public override void Handle(IFigure figure, float deltaX, float deltaY)
+        {
+            figure.Resize(deltaX, 0);
+        }
+
+        protected override Snapshot GetHandlerSnapshotFrom(Snapshot figurePose)
+        {
+            var location = new Point() {
+                X = figurePose.Location.X + figurePose.Size.Width - handlerSize.Width,
+                Y = figurePose.Location.Y 
+            };
+            return new Snapshot(location, handlerSize);
+        }
+    }
+    class LowRightHandler : TouchHandler
+    {
+        public LowRightHandler(Size size) : base(size)
+        { }
+
+        public override Corner Corner 
+        {
+            get 
+            {
+                return Corner.LowRight;
+            }
+        }
+
+        public override void Handle(IFigure figure, float deltaX, float deltaY)
+        {
+            figure.Resize(deltaX, deltaY);
+        }
+
+        protected override Snapshot GetHandlerSnapshotFrom(Snapshot figurePose)
+        {
+            var location = new Point() 
+            {
+                X = figurePose.Location.X + figurePose.Size.Width - handlerSize.Width,
+                Y = figurePose.Location.Y + figurePose.Size.Height - handlerSize.Height
+            };
+            return new Snapshot(location, handlerSize);
+        }
+    }
+    class LowLeftHandler : TouchHandler
+    {
+        public LowLeftHandler(Size size) : base(size)
+        { }
+
+        public override Corner Corner 
+        {
+            get 
+            {
+                return Corner.LowLeft;
+            }
+        }
+
+        public override void Handle(IFigure figure, float deltaX, float deltaY)
+        {
+            figure.Resize(0, deltaY);
+        }
+
+        protected override Snapshot GetHandlerSnapshotFrom(Snapshot figurePose)
+        {
+            var location = new Point()
+            {
+                Y = figurePose.Location.Y + figurePose.Size.Height - handlerSize.Height,
+                X = figurePose.Location.X
+            };
+            return new Snapshot(location, handlerSize);
+        }
+    }
+    class CenterHandler : TouchHandler
+    {
+        public CenterHandler(Size size) : base(size)
+        { }
+
+        public override Corner Corner 
+        {
+            get 
+            {
+                return Corner.Center;
+            }
+        }
+
+        public override void Handle(IFigure figure, float deltaX, float deltaY)
+        {
+            figure.Move(deltaX, deltaY);
+        }
+
+        protected override Snapshot GetHandlerSnapshotFrom(Snapshot figurePose)
+        {
+            return figurePose;
+        }
+    }
+    class DummyHandler : IDragAction
+    {
+        public Corner Corner 
+        {
+            get 
+            {
+                return Corner.None;
+            }
+        }
         public void Handle(IFigure figure, float deltaX, float deltaY)
         {
-            throw new NotImplementedException();
+            return;
+        }
+
+        public bool IsTouch(Snapshot figurePose, Point touch)
+        {
+            return true;
         }
     }
 }

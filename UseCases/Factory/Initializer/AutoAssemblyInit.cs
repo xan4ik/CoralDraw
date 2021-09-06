@@ -14,7 +14,7 @@ namespace UseCases
             {
                 if (CanHandleType(factoryClass))
                 {
-                    var key = GetKeyAttributeFrom(factoryClass).Key;
+                    var key = GetKeyOf(factoryClass);
                     var instance = CreateInstanceOf(factoryClass);
                     factory.AddFactory(key, (Factory)instance);
                 }
@@ -31,10 +31,11 @@ namespace UseCases
             return type.GetCustomAttribute<FactoryKeyAttribute>(false) != null; 
         }
 
-        private FactoryKeyAttribute GetKeyAttributeFrom(Type type) 
+        private string GetKeyOf(Type type) 
         {
-            return type.GetCustomAttribute<FactoryKeyAttribute>(false);
+            return type.GetCustomAttribute<FactoryKeyAttribute>(false).Key;
         }
+
         private object CreateInstanceOf(Type type)
         {
             var defaultCtor = type.GetConstructor(null);
