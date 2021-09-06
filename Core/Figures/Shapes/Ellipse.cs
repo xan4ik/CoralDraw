@@ -2,18 +2,18 @@
 {
     public class Ellipse : Figure
     {
-        public Ellipse(Snapshot snapshot) : base(snapshot)
+        public Ellipse(Snapshot snapshot, IDrawerFigureVisitor visitor) : base(snapshot, visitor)
         { }
 
-        public Ellipse() : base(new Snapshot()) 
+        public Ellipse(IDrawerFigureVisitor visitor) : base(default, visitor)
         { }
 
-        public override IFigure CreateClone()
+        protected override IFigure OnCreateClone(IDrawerFigureVisitor clone)
         {
-            return new Ellipse();
+            return new Ellipse(clone);
         }
 
-        public override void Draw(IDrawerAdapter adapter, IDrawerFigureVisitor visitor)
+        protected override void OnDraw(IDrawerAdapter adapter, IDrawerFigureVisitor visitor)
         {
             visitor.Draw(adapter, this);
         }

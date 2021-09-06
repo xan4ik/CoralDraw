@@ -2,12 +2,14 @@
 
 namespace Core
 {
-    public abstract class Figure : IFigure, IFigurePrototype
+    public abstract class Figure : IFigure, IPrototype<IFigure>
     {
+        private IDrawerFigureVisitor visitor;
         private Transform transform;
-        protected Figure(Snapshot snapshot)
+        protected Figure(Snapshot snapshot, IDrawerFigureVisitor visitor)
         {
-            transform = new Transform(snapshot);
+            this.transform = new Transform(snapshot);
+            this.visitor = visitor;
         }
 
         public Transform GetTransform() 
@@ -30,9 +32,35 @@ namespace Core
             transform.Resize(deltaWigth, deltaHeight);
         }
 
-        public abstract void Draw(IDrawerAdapter adapter, IDrawerFigureVisitor visitor);
-        public abstract IFigure CreateClone();
+        public void Draw(IDrawerAdapter adapter) 
+        {
+            OnDraw(adapter, visitor);
+        }
 
+        protected abstract void OnDraw(IDrawerAdapter adapter, IDrawerFigureVisitor visitor);
+        public IFigure CreateClone() 
+        {
+            if (visitor is IPrototype<IDrawerFigureVisitor> prototype)
+            {
+                return OnCreateClone(prototype.CreateClone());
+            }
+            else throw new CloneCreateException(visitor.GetType(), typeof(IDrawerFigureVisitor));
+        }
+
+        protected abstract IFigure OnCreateClone(IDrawerFigureVisitor clone);
+
+    }
+
+    public class CloneCreateException : Exception 
+    {
+        public CloneCreateException(Type type, Type prototype ) : base($"Type: {type.ToString()} have to implement IPrototype<{prototype.ToString()}> interface")
+        {
+            RequiredPrototype = prototype;            
+            Type = type;
+        }
+
+        public readonly Type Type;
+        public readonly Type RequiredPrototype;
     }
 
 

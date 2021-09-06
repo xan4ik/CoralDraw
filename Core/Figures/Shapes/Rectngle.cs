@@ -2,20 +2,21 @@
 {
     public class Rectngle : Figure
     {
-        public Rectngle(Snapshot snapshot) : base(snapshot)
+        public Rectngle(Snapshot snapshot, IDrawerFigureVisitor visitor) : base(snapshot, visitor)
         { }
 
-        public Rectngle() : base(new Snapshot())
+        public Rectngle(IDrawerFigureVisitor visitor) : base(default, visitor)
         { }
 
-        public override IFigure CreateClone()
+        protected override IFigure OnCreateClone(IDrawerFigureVisitor clone)
         {
-            return new Rectngle();
+            return new Rectngle(clone);
         }
 
-        public override void Draw(IDrawerAdapter adapter, IDrawerFigureVisitor visitor)
+        protected override void OnDraw(IDrawerAdapter adapter, IDrawerFigureVisitor visitor)
         {
             visitor.Draw(adapter, this);
         }
+
     }
 }

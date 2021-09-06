@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Core
 {
-    public class Composite : IFigure, IFigurePrototype
+    public class Composite : IFigure, IPrototype<IFigure>
     {
         private List<IFigure> figures;
         public Composite(params IFigure[] figures)
@@ -59,11 +59,11 @@ namespace Core
             throw new NotImplementedException();
         }
         
-        public void Draw(IDrawerAdapter adapter, IDrawerFigureVisitor visitor)
+        public void Draw(IDrawerAdapter adapter)
         {
             foreach (var figure in figures) 
             {
-                figure.Draw(adapter, visitor);
+                figure.Draw(adapter);
             }
         }
 
@@ -90,23 +90,12 @@ namespace Core
             }
         }
 
-        //TODO: Ask for it
+        //TODO: Create clone
         public IFigure CreateClone()
         {
             var composite = new Composite();
-            foreach (var figure in figures) 
-            {
-                AddFigureToClone(composite, figure);
-            }
+            
             return composite;
-        }
-
-        private void AddFigureToClone(Composite composite, IFigure figure)
-        {
-            if (figure is IFigurePrototype) 
-            {
-                composite.AddFigure(((IFigurePrototype)figure).CreateClone());
-            }
         }
     }
 }
