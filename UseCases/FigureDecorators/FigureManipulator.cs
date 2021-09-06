@@ -109,11 +109,12 @@ namespace UseCases
     abstract class TouchHandler : IDragAction
     {
         protected readonly Size handlerSize;
-        protected TouchHandler(Size size)
+        protected TouchHandler(Size size, Corner corner)
         {
             this.handlerSize = size;
+            this.Corner = corner;
         } 
-        public abstract Corner Corner { get; }
+        public Corner Corner { get; private set; }
         public bool IsTouch(Snapshot figurePose, Point touch)
         {
             var handlerSnapshot = GetHandlerSnapshotFrom(figurePose);
@@ -126,16 +127,8 @@ namespace UseCases
 
     class HighLeftHandler : TouchHandler
     {
-        public HighLeftHandler(Size size) : base(size)
+        public HighLeftHandler(Size size) : base(size, Corner.HighLeft)
         { }
-
-        public override Corner Corner 
-        {
-            get 
-            {
-                return Corner.HighLeft;
-            }
-        }
 
         public override void Handle(IFigure figure, float deltaX, float deltaY)
         {
@@ -150,16 +143,8 @@ namespace UseCases
     }
     class HighRightHandler : TouchHandler
     {
-        public HighRightHandler(Size size) : base(size)
+        public HighRightHandler(Size size) : base(size, Corner.HighRight)
         { }
-
-        public override Corner Corner 
-        {
-            get 
-            {
-                return Corner.HighRight;
-            }
-        }
 
         public override void Handle(IFigure figure, float deltaX, float deltaY)
         {
@@ -177,16 +162,8 @@ namespace UseCases
     }
     class LowRightHandler : TouchHandler
     {
-        public LowRightHandler(Size size) : base(size)
+        public LowRightHandler(Size size) : base(size, Corner.LowRight)
         { }
-
-        public override Corner Corner 
-        {
-            get 
-            {
-                return Corner.LowRight;
-            }
-        }
 
         public override void Handle(IFigure figure, float deltaX, float deltaY)
         {
@@ -205,16 +182,8 @@ namespace UseCases
     }
     class LowLeftHandler : TouchHandler
     {
-        public LowLeftHandler(Size size) : base(size)
+        public LowLeftHandler(Size size) : base(size, Corner.LowLeft)
         { }
-
-        public override Corner Corner 
-        {
-            get 
-            {
-                return Corner.LowLeft;
-            }
-        }
 
         public override void Handle(IFigure figure, float deltaX, float deltaY)
         {
@@ -233,16 +202,8 @@ namespace UseCases
     }
     class CenterHandler : TouchHandler
     {
-        public CenterHandler(Size size) : base(size)
+        public CenterHandler(Size size) : base(size, Corner.Center)
         { }
-
-        public override Corner Corner 
-        {
-            get 
-            {
-                return Corner.Center;
-            }
-        }
 
         public override void Handle(IFigure figure, float deltaX, float deltaY)
         {
