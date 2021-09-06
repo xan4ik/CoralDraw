@@ -1,5 +1,6 @@
 ﻿namespace Core
 {
+    //TODO : value check
     public struct Size
     {
         public float Width;
