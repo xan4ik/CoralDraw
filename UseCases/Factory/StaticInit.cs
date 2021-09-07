@@ -4,8 +4,8 @@
     {
         public void Init(IFactory<string, IFigureCreator> factory)
         {
-            factory.AddFactory("Ellipse", new EllipceCreator());
-            factory.AddFactory("Rectangle", new RectangleCreator());
+            factory.AddCreator("Ellipse", new EllipceCreator());
+            factory.AddCreator("Rectangle", new RectangleCreator());
         }
     }
 }

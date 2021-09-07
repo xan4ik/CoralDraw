@@ -13,7 +13,7 @@ namespace UseCases
             initializer.Init(this);
         }
 
-        public Factory GetFactory(Key key) 
+        public Factory GetCreator(Key key) 
         {
             if (IsFactoryExist(key))
             {
@@ -22,7 +22,7 @@ namespace UseCases
             else throw new ArgumentException($"Not valid key - {key}");
         }
 
-        public void AddFactory(Key key, Factory factory)
+        public void AddCreator(Key key, Factory factory)
         {
             if (IsFactoryNotExist(key))
             {
@@ -36,7 +36,7 @@ namespace UseCases
             return !creators.ContainsKey(key);
         }
 
-        public void RemoveFactory(Key key)
+        public void RemoveCreator(Key key)
         {
             if (IsFactoryExist(key))
             {

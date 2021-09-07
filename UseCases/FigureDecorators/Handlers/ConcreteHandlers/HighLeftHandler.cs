@@ -2,9 +2,9 @@
 
 namespace UseCases
 {
-    class HighLeftHandler : TouchHandler
+    class HighLeftHandler : HandlerBase
     {
-        public HighLeftHandler(Size size) : base(size, Corner.HighLeft)
+        public HighLeftHandler(Size handlerSize) : base(handlerSize)
         { }
 
         public override void Handle(IFigure figure, float deltaX, float deltaY)
@@ -13,7 +13,7 @@ namespace UseCases
             figure.Resize(-deltaX, -deltaY);
         }
 
-        protected override Snapshot GetHandlerSnapshotFrom(Snapshot figurePose)
+        public override Snapshot GetHandlerSnapshotParentTo(Snapshot figurePose)
         {
             return new Snapshot(figurePose.Location, handlerSize);
         }

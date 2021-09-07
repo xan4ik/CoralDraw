@@ -5,6 +5,16 @@ using System.Text;
 
 namespace UseCases
 {
+    public enum Corner
+    {
+        HighLeft,
+        HighRight,
+        LowLeft,
+        LowRight,
+        Center,
+        None
+    }
+
     public class FigureManipulator : IFigure, IToucheable
     {
         private class DummyFigure : IFigure
@@ -31,7 +41,7 @@ namespace UseCases
         }
         private static readonly DummyFigure dummy;
 
-        private Dictionary<Corner, IDragAction> handlers;
+        private Dictionary<Corner, TouchHandler> handlers;
         private IFigure attachedFigure;
         private Corner activeHandler;
 
@@ -43,14 +53,14 @@ namespace UseCases
         public FigureManipulator()
         {
             var handlerSize = new Size(5, 5);
-            handlers = new Dictionary<Corner, IDragAction>()
+            handlers = new Dictionary<Corner, TouchHandler>()
             {
-                { Corner.HighRight, new HighRightHandler(handlerSize) },
-                { Corner.LowRight, new LowRightHandler(handlerSize) },
-                { Corner.HighLeft, new HighLeftHandler(handlerSize) },
-                { Corner.LowLeft, new LowLeftHandler(handlerSize) },
-                { Corner.Center, new CenterHandler(handlerSize) },
-                { Corner.None, new DummyHandler() },
+                { Corner.HighRight, new TouchHandler(new HighRightHandler(handlerSize), Corner.HighRight) },
+                { Corner.LowRight, new TouchHandler(new LowRightHandler(handlerSize), Corner.LowRight) },
+                { Corner.HighLeft, new TouchHandler(new HighLeftHandler(handlerSize), Corner.HighLeft) },
+                { Corner.LowLeft, new TouchHandler(new LowLeftHandler(handlerSize), Corner.LowLeft) },
+                { Corner.Center, new TouchHandler(new CenterHandler(handlerSize), Corner.Center) },
+                { Corner.None, new TouchHandler(new HighRightHandler(handlerSize), Corner.None) }
             };
         }
 
@@ -82,10 +92,10 @@ namespace UseCases
 
         public void HandleTouch(Point touch)
         {
-            var figureSnapshot = attachedFigure.GetFigureSnapshot();
+            var figure = attachedFigure.GetFigureSnapshot();
             foreach (var handler in handlers.Values)
             {
-                if (handler.IsTouch(figureSnapshot, touch)) 
+                if (handler.IsTouch(figure,touch))
                 {
                     activeHandler = handler.Corner;
                     return;
@@ -101,23 +111,16 @@ namespace UseCases
         public void Draw(IDrawerAdapter adapter)
         {
             attachedFigure.Draw(adapter);
-            
+            DrawHandlers(adapter);
         }
-    }
 
-    public interface IToucheable
-    {
-        void HandleTouch(Point point);
-        void Drag(float deltaX, float deltaY);
-    }
-
-    public enum Corner 
-    {
-        HighLeft,
-        HighRight,
-        LowLeft,
-        LowRight,
-        Center,
-        None
+        private void DrawHandlers(IDrawerAdapter adapter)
+        {
+            var figureSnapshot = attachedFigure.GetFigureSnapshot();
+            foreach (var handler in handlers.Values)
+            {
+                handler.Draw(adapter, figureSnapshot);
+            }
+        }
     }
 }

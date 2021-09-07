@@ -2,8 +2,8 @@
 {
     public interface IFactory <Key, Factory>
     {
-        Factory GetFactory(Key key);
-        void AddFactory(Key key, Factory factory);
-        void RemoveFactory(Key key);
+        Factory GetCreator(Key key);
+        void AddCreator(Key key, Factory factory);
+        void RemoveCreator(Key key);
     }
 }

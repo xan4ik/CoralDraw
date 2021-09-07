@@ -16,7 +16,7 @@ namespace UseCases
                 {
                     var key = GetKeyOf(factoryClass);
                     var instance = CreateInstanceOf(factoryClass);
-                    factory.AddFactory(key, (Factory)instance);
+                    factory.AddCreator(key, (Factory)instance);
                 }
             }
         }
