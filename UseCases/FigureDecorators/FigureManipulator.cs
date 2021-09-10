@@ -1,7 +1,5 @@
 ﻿using Core;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace UseCases
 {
@@ -93,16 +91,21 @@ namespace UseCases
         public void HandleTouch(Point touch)
         {
             var figure = attachedFigure.GetFigureSnapshot();
-            foreach (var handler in handlers.Values)
-            {
-                if (handler.IsTouch(figure,touch))
-                {
-                    activeHandler = handler.Corner;
-                    return;
-                }
-            }
+            activeHandler = FindActiveHanderFor(figure, touch);
         }
 
+        private Corner FindActiveHanderFor(Snapshot figureSnapshot, Point touch) 
+        {
+            foreach (var handler in handlers.Values)
+            {
+                if (handler.IsTouch(figureSnapshot, touch))
+                {
+                    return handler.Corner;
+                }
+            }
+            return Corner.None;
+        }
+            
         public void Drag(float deltaX, float deltaY)
         {
             handlers[activeHandler].Handle(attachedFigure, deltaX, deltaY);

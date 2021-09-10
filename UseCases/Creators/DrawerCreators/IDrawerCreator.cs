@@ -2,7 +2,7 @@
 
 namespace UseCases
 {
-    public interface IDrawerFactory
+    public interface IDrawerCreator
     {
         public IDrawerFigureVisitor CreateDrawer();
     }
