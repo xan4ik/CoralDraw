@@ -10,6 +10,46 @@ namespace ApiShell
         private List<IFigure> figures;
         private CommandHistory history;
         private FacadeState state;
+
+        public void MouseDown(Point point) 
+        {
+            state.MouseDown(point, this);
+        }
+        
+        public  void MouseHold(Point point)
+        {
+            state.MouseDown(point, this);
+        }
+        
+        public  void MouseUp(Point point)
+        {
+            state.MouseUp(point, this);
+        }
+        
+        public void KeyDown(string key)
+        {
+            state.KeyDown(key, this);
+        }
+        
+        public void KeyUp(string key)
+        {
+            state.KeyUp(key, this);
+        }
+        
+        public void Draw(IDrawerAdapter adapter)
+        {
+            state.Draw(adapter, this);
+        }
+
+        public void UpdateFigureCreator(string factoryKey)
+        {
+            state.UpdateFigureCreator(factoryKey);
+        }
+
+        public void UpdateDrawerCreator(string factoryKey)
+        {
+            state.UpdateDrawerCreator(factoryKey);
+        }
     }
      
     public partial class Facade
@@ -19,8 +59,8 @@ namespace ApiShell
             public abstract void MouseDown(Point point, Facade facade);
             public abstract void MouseHold(Point point, Facade facade);
             public abstract void MouseUp(Point point, Facade facade);
-            public abstract void KeyDown(string key);
-            public abstract void KeyUp(string key);
+            public abstract void KeyDown(string key, Facade facade);
+            public abstract void KeyUp(string key, Facade facade);
             public abstract void Draw(IDrawerAdapter adapter, Facade facade);
             public abstract void UpdateFigureCreator(string factoryKey);
             public abstract void UpdateDrawerCreator(string factoryKey);
@@ -94,12 +134,12 @@ namespace ApiShell
                 figureCreator = figureFactory.GetCreator(factoryKey);
             }
 
-            public override void KeyDown(string key)
+            public override void KeyDown(string key, Facade facade)
             {
                 return;
             }
 
-            public override void KeyUp(string key)
+            public override void KeyUp(string key, Facade facade)
             {
                 return;
             }
@@ -111,43 +151,81 @@ namespace ApiShell
         }
         private class SelectionState : FacadeState
         {
-            public override void KeyDown(string key)
+            private FigureManipulator manipulator;
+            private ISelectOption selectOption;
+            private Point pointDown;
+            private bool isMouseDown;
+
+            public override void KeyDown(string key, Facade facade)
             {
-                throw new NotImplementedException();
+                if (key == "Shift")
+                {
+                    selectOption = new ShiftPressed();
+                }
+                else if (key == "Ctrl") 
+                {
+                    selectOption = new CtrlPressed();
+                }
             }
 
-            public override void KeyUp(string key)
+            public override void KeyUp(string key, Facade facade)
             {
-                throw new NotImplementedException();
+                selectOption = new DefaultOption();
             }
 
+            //TODO: handle touch
             public override void MouseDown(Point point, Facade facade)
             {
-                throw new NotImplementedException();
+                var selectedFigure = selectOption.GetFigureByPoint(facade.figures, point);
+
+                if (selectedFigure != null)
+                {
+                    manipulator.AttachTo(selectedFigure);
+                }
+
+                if (!manipulator.GetFigureSnapshot().ContainsPoint(point))
+                {
+                    manipulator.Detach();
+                }
+                pointDown = point;
+                isMouseDown = true;
             }
 
             public override void MouseHold(Point point, Facade facade)
             {
-                throw new NotImplementedException();
+                if (isMouseDown) 
+                {
+                    float dx = point.X - pointDown.X;
+                    float dy = point.Y - pointDown.Y;
+                    
+                    manipulator.Drag(dx, dy);
+
+                    pointDown = point;
+                }
             }
 
             public override void MouseUp(Point point, Facade facade)
             {
-                throw new NotImplementedException();
+                manipulator.Detach();
+                isMouseDown = false;
             }
 
             public override void UpdateDrawerCreator(string factoryKey)
             {
-                throw new NotImplementedException();
+                return;
             }
 
             public override void UpdateFigureCreator(string factoryKey)
             {
-                throw new NotImplementedException();
+                return;
             }
             public override void Draw(IDrawerAdapter adapter, Facade facade)
             {
-                throw new NotImplementedException();
+                foreach (var figure in facade.figures) 
+                {
+                    figure.Draw(adapter);
+                }
+                manipulator.Draw(adapter);
             }
         }
     }
@@ -226,7 +304,7 @@ namespace ApiShell
 
         private void FindFigureAfterPrevious(IEnumerator<IFigure> figures, Point location) 
         {
-            while (figures.MoveNext())  // Maybe do/while
+            while (figures.MoveNext())  //TODO: Maybe do/while
             {
                 if (IsTouchFigure(figures.Current, location)) 
                 {
@@ -239,7 +317,7 @@ namespace ApiShell
 
 
       
-
+        //TODO: удОли это из всех классов
         private bool IsTouchFigure(IFigure figure, Point location)
         {
             return figure.GetFigureSnapshot().ContainsPoint(location);
@@ -266,7 +344,7 @@ namespace ApiShell
         }
     }
 
-
+    //TODO: Fix all ISelectOption
     public class ShiftPressed : ISelectOption
     {
         private Composite composite;
