@@ -2,7 +2,7 @@
 {
     public class Ellipse : Figure
     {
-        public Ellipse(Snapshot snapshot, IDrawerFigureVisitor visitor) : base(snapshot, visitor)
+        public Ellipse(IDrawerFigureVisitor visitor, Snapshot snapshot) : base(snapshot, visitor)
         { }
 
         public Ellipse(IDrawerFigureVisitor visitor) : base(default, visitor)

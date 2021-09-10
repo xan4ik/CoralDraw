@@ -33,14 +33,14 @@ namespace Core
 
         public void RemoveFigure(IFigure figure) 
         {
-            if (InList(figure))
+            if (Contains(figure))
             {
                 figures.Remove(figure);
             }
             else throw new ArgumentException("This figure not in list");
         }
 
-        private bool InList(IFigure figure) 
+        public bool Contains(IFigure figure) 
         {
             return figures.Contains(figure);
         }

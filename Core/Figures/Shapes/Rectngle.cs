@@ -2,7 +2,7 @@
 {
     public class Rectngle : Figure
     {
-        public Rectngle(Snapshot snapshot, IDrawerFigureVisitor visitor) : base(snapshot, visitor)
+        public Rectngle(IDrawerFigureVisitor visitor, Snapshot snapshot) : base(snapshot, visitor)
         { }
 
         public Rectngle(IDrawerFigureVisitor visitor) : base(default, visitor)

@@ -2,7 +2,6 @@
 
 namespace Core
 {
-    // TODO: Composite
     public class CloneCreateException : Exception 
     {
         public CloneCreateException(Type type, Type prototype ):

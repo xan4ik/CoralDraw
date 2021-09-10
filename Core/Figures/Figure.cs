@@ -10,14 +10,9 @@
             this.visitor = visitor;
         }
 
-        public Transform GetTransform() 
-        {
-            return transform;
-        }
-
         public void Move(float deltaX, float deltaY)
         {
-            transform.Relocate(deltaX, deltaY);
+            transform.Move(deltaX, deltaY);
         }
     
         public Snapshot GetFigureSnapshot()

@@ -20,7 +20,7 @@
             };
         }
 
-        public void Relocate(float deltaX, float deltaY) 
+        public void Move(float deltaX, float deltaY) 
         {
             location.X += deltaX;
             location.Y += deltaY;
