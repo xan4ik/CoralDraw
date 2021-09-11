@@ -13,11 +13,7 @@
 
         public Snapshot CreateSnapshot() 
         {
-            return new Snapshot
-            {
-                Size = size,
-                Location = location
-            };
+            return new Snapshot(location, size);
         }
 
         public void Move(float deltaX, float deltaY) 

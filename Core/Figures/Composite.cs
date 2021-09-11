@@ -19,14 +19,14 @@ namespace Core
 
         public void AddFigure(IFigure figure) 
         {
-            if (NotInList(figure))
+            if (NotContains(figure))
             {
                 figures.Add(figure);
             }
             else throw new ArgumentException("This figure already in list");
         }
 
-        private bool NotInList(IFigure figure)
+        public bool NotContains(IFigure figure)
         {
             return !figures.Contains(figure);
         }
