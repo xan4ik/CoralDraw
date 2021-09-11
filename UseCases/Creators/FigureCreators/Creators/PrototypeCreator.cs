@@ -14,17 +14,12 @@ namespace UseCases
             this.prototype = prototype;
         }
 
-        public IFigure CreateFigure(Snapshot snapshot)
+        public IFigure CreateFigure(IDrawerFigureVisitor visitor, Snapshot snapshot)
         {
             var clone = prototype.CreateClone();
                 clone.Move(snapshot.Location.X, snapshot.Location.Y);
                 clone.Resize(snapshot.Size.Width, snapshot.Size.Height);
             return clone;
-        }
-
-        public IFigure CreateFigure()
-        {
-            return prototype.CreateClone();
         }
     }
 }

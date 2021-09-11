@@ -15,38 +15,9 @@ namespace UseCases
 
     public class FigureManipulator : IFigure, IToucheable
     {
-        private class DummyFigure : IFigure
-        {
-            public void Draw(IDrawerAdapter adapter)
-            {
-                return;
-            }
-
-            public Snapshot GetFigureSnapshot()
-            {
-                return default;
-            }
-
-            public void Move(float deltaX, float deltaY)
-            {
-                return;
-            }
-
-            public void Resize(float deltaWigth, float deltaHeight)
-            {
-                return;
-            }
-        }
-        private static readonly DummyFigure dummy;
-
         private Dictionary<Corner, TouchHandler> handlers;
         private IFigure attachedFigure;
         private Corner activeHandler;
-
-        static FigureManipulator()
-        {
-            dummy = new DummyFigure();
-        }
 
         public FigureManipulator()
         {
@@ -69,7 +40,7 @@ namespace UseCases
 
         public void Detach()
         {
-            attachedFigure = dummy;
+            attachedFigure = DummyFigure.GetInstance();
         }
 
         public Snapshot GetFigureSnapshot()

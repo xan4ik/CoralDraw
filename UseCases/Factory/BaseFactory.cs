@@ -50,7 +50,7 @@ namespace UseCases
             return creators.ContainsKey(key);
         }
 
-        public IEnumerable<Key> GetFactoriesKeys()
+        public IEnumerable<Key> GetFactoryKeys()
         {
             return creators.Keys;
         }
