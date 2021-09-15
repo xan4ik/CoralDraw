@@ -4,20 +4,19 @@ using UseCases;
 
 namespace ApiShell
 {
-    public partial class Facade
+    public partial class Redactor
     {
         private List<IFigure> figures;
         private CommandHistory history;
         private FacadeState state;
         private StateMemento memento;
 
-        public Facade(IFactory<string, IFigureCreator> figureFactory, 
-                      IFactory<string, IDrawerCreator> drawerFactory)
+        public Redactor()
         {
-            var creionState = new CreationState(figureFactory, drawerFactory, this);
-            var selectionState = new SelectionState(this);
-            memento = new StateMemento(selectionState);
-            state = creionState;
+            state= new CreationState(new FigureFactory(), new DrawerVisitorFactory(), this);
+            memento = new StateMemento( new SelectionState(this));
+            history = new CommandHistory();
+            figures = new List<IFigure>();
         }
 
         public void SwitchState() 
@@ -32,7 +31,7 @@ namespace ApiShell
             state.MouseDown(point);
         }
         
-        public  void MouseHold(Point point)
+        public  void MouseMove(Point point)
         {
             state.MouseDown(point);
         }

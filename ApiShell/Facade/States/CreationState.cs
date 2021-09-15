@@ -5,7 +5,7 @@ using UseCases;
 namespace ApiShell
 {
 
-    public partial class Facade
+    public partial class Redactor
     {
         private class CreationState : FacadeState
         {
@@ -17,7 +17,7 @@ namespace ApiShell
             private Point pointDown;
 
             public CreationState(IFactory<string, IFigureCreator> figureFactory, 
-                                 IFactory<string, IDrawerCreator> drawerFactory, Facade parent) : base(parent)
+                                 IFactory<string, IDrawerCreator> drawerFactory, Redactor parent) : base(parent)
             {
                 this.figureFactory = figureFactory;
                 this.drawerFactory = drawerFactory;

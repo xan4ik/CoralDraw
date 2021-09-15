@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ApiShell
 {
-    public partial class Facade
+    public partial class Redactor
     {
         private class StateMemento
         {
@@ -14,7 +14,7 @@ namespace ApiShell
                 this.lastState = lastState;
             }
 
-            public void RestoreStateFor(Facade facade) 
+            public void RestoreStateFor(Redactor facade) 
             {
                 facade.state = lastState;
             }

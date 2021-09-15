@@ -3,15 +3,14 @@
 namespace ApiShell
 {
 
-    public partial class Facade
+    public partial class Redactor
     {
         private abstract class FacadeState 
         {
             protected const string NotImplementedMessage = "This option is not awailable!";
-            protected readonly Facade parent;
-            private 
+            protected readonly Redactor parent;
 
-            protected FacadeState(Facade parent)
+            protected FacadeState(Redactor parent)
             {
                 this.parent = parent;
             }

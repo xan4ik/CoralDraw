@@ -5,7 +5,7 @@ using UseCases;
 namespace ApiShell
 {
 
-    public partial class Facade
+    public partial class Redactor
     {
         private class SelectionState : FacadeState
         {
@@ -14,7 +14,7 @@ namespace ApiShell
             private Point pointDown;
             private bool isMouseDown;
 
-            public SelectionState(Facade parent) : base(parent)
+            public SelectionState(Redactor parent) : base(parent)
             {
                 manipulator = new FigureManipulator();
             }
@@ -37,20 +37,21 @@ namespace ApiShell
             }
 
             //TODO: handle touch
-            public override void MouseDown(Point point)
+            public override void MouseDown(Point touch)
             {
-                var selectedFigure = selectOption.GetFigureByTouch(parent.figures, point);
+                var selectedFigure = selectOption.GetFigureByTouch(parent.figures, touch);
 
                 if (selectedFigure.IsNotDummy())
                 {
+                    manipulator.HandleTouch(touch);
                     manipulator.AttachTo(selectedFigure);
                 }
 
-                if (!manipulator.IsTouched(point))
+                if (!manipulator.IsTouched(touch))
                 {
                     manipulator.Detach();
                 }
-                pointDown = point;
+                pointDown = touch;
                 isMouseDown = true;
             }
 
@@ -60,9 +61,7 @@ namespace ApiShell
                 {
                     float dx = point.X - pointDown.X;
                     float dy = point.Y - pointDown.Y;
-                    
                     manipulator.Drag(dx, dy);
-
                     pointDown = point;
                 }
             }
@@ -76,11 +75,11 @@ namespace ApiShell
 
             public override void Draw(IDrawerAdapter adapter)
             {
+                manipulator.Draw(adapter);
                 foreach (var figure in parent.figures) 
                 {
                     figure.Draw(adapter);
                 }
-                manipulator.Draw(adapter);
             }
             
 #region OtherStateMethods
