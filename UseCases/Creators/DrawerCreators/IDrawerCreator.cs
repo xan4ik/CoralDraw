@@ -4,6 +4,6 @@ namespace UseCases
 {
     public interface IDrawerCreator
     {
-        public IDrawerFigureVisitor CreateDrawer();
+        public IDrawerFigureVisitor CreateDrawer(Color color);
     }
 }

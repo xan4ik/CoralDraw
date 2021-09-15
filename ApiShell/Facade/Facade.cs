@@ -65,5 +65,10 @@ namespace ApiShell
         {
             state.UpdateDrawerCreator(factoryKey);
         }
+
+        public void ChangeColorTo(Color color) 
+        {
+            state.ChangeColorTo(color);
+        }
     }
 }

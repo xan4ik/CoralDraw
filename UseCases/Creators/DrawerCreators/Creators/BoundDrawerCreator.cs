@@ -4,9 +4,9 @@ namespace UseCases
 {
     public class BoundDrawerCreator : IDrawerCreator
     {
-        public IDrawerFigureVisitor CreateDrawer()
+        public IDrawerFigureVisitor CreateDrawer(Color color)
         {
-            return new BoundDrawer();
+            return new BoundDrawer(color);
         }
     }
 }

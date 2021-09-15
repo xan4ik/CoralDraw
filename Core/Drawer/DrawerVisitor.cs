@@ -2,9 +2,14 @@
 {
     public abstract class DrawerVisitor : IDrawerFigureVisitor
     {
-        private Core.Color color = default;
+        private Color color = default;
 
-        public void SetColor(Core.Color color)
+        public DrawerVisitor(Color color)
+        {
+            this.color = color;
+        }
+
+        public void SetColor(Color color)
         {
             this.color = color;
         }

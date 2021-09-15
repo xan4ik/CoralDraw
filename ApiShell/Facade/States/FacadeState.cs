@@ -1,4 +1,5 @@
 ﻿using Core;
+using System;
 
 namespace ApiShell
 {
@@ -23,6 +24,7 @@ namespace ApiShell
             public abstract void Draw(IDrawerAdapter adapter);
             public abstract void UpdateFigureCreator(string factoryKey);
             public abstract void UpdateDrawerCreator(string factoryKey);
+            public abstract void ChangeColorTo(Color color);
         }
     }
 }

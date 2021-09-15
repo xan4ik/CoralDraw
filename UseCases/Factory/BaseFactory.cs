@@ -3,17 +3,17 @@ using System.Collections.Generic;
 
 namespace UseCases
 {
-    public abstract class BaseFactory<Key, Factory> : IFactory<Key, Factory>
+    public abstract class BaseFactory<Key, Creator> : IFactory<Key, Creator>
     {
-        private Dictionary<Key, Factory> creators;
+        private Dictionary<Key, Creator> creators;
 
-        protected BaseFactory(IFactoryInitializer<Key, Factory> initializer)
+        protected BaseFactory(IFactoryInitializer<Key, Creator> initializer)
         {
-            creators = new Dictionary<Key, Factory>();
+            creators = new Dictionary<Key, Creator>();
             initializer.Init(this);
         }
 
-        public Factory GetCreator(Key key) 
+        public Creator GetCreator(Key key) 
         {
             if (IsFactoryExist(key))
             {
@@ -22,7 +22,7 @@ namespace UseCases
             else throw new ArgumentException($"Not valid key - {key}");
         }
 
-        public void AddCreator(Key key, Factory factory)
+        public void AddCreator(Key key, Creator factory)
         {
             if (IsFactoryNotExist(key))
             {

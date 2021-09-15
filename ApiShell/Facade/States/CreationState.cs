@@ -15,6 +15,7 @@ namespace ApiShell
             private IFigureCreator figureCreator;
             private IDrawerCreator drawerCreator;
             private Point pointDown;
+            private Color color;
 
             public CreationState(IFactory<string, IFigureCreator> figureFactory, 
                                  IFactory<string, IDrawerCreator> drawerFactory, Redactor parent) : base(parent)
@@ -45,7 +46,7 @@ namespace ApiShell
 
             private IFigure CreateFigure(Point pointUp)
             {
-                var drawer = drawerCreator.CreateDrawer();
+                var drawer = drawerCreator.CreateDrawer(color);
                 var snapshot = GetFigureSnapshot(pointDown, pointUp);
                 return figureCreator.CreateFigure(drawer, snapshot);
             }
@@ -75,7 +76,12 @@ namespace ApiShell
                 figureCreator = figureFactory.GetCreator(factoryKey);
             }
 
-#region OtherStateMethods
+            public override void ChangeColorTo(Color color)
+            {
+                this.color = color;
+            }
+
+            #region OtherStateMethods
             public override void MouseHold(Point point)
             {
                 throw new NotImplementedException(NotImplementedMessage);
@@ -90,7 +96,7 @@ namespace ApiShell
             {
                 throw new NotImplementedException(NotImplementedMessage);
             }
-#endregion
+            #endregion
         }
     }
 }

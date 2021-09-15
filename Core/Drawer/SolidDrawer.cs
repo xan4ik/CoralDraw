@@ -2,6 +2,9 @@
 {
     public class SolidDrawer : DrawerVisitor
     {
+        public SolidDrawer(Color color) : base(color)
+        { }
+
         protected override void OnDrawEllipse(IDrawerAdapter adapter, Snapshot figureSnapshot)
         {
             adapter.DrawSolidEllipse(figureSnapshot.Location, figureSnapshot.Size);

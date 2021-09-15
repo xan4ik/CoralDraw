@@ -20,6 +20,7 @@ namespace CoralDraw_WinForms
         private void InitContent()
         {
             adapter = new GraphicsAdapter(this.CreateGraphics());
+            converter = new SystemDrawingToCoreConverter();
             redactor = new Redactor();
         }
 
@@ -54,7 +55,15 @@ namespace CoralDraw_WinForms
             redactor.Draw(adapter);
         }
 
+        private void OnChangeFigureFactory(object sender, System.EventArgs e)
+        {
+            redactor.UpdateFigureCreator(comboBox1.SelectedItem.ToString());
+        }
 
+        private void OnChangeDrawerFactory(object sender, System.EventArgs e)
+        {
+            redactor.UpdateDrawerCreator(comboBox2.SelectedItem.ToString());
+        }
     }
 
 

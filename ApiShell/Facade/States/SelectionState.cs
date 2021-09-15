@@ -4,7 +4,6 @@ using UseCases;
 
 namespace ApiShell
 {
-
     public partial class Redactor
     {
         private class SelectionState : FacadeState
@@ -92,7 +91,12 @@ namespace ApiShell
             {
                 throw new NotImplementedException(NotImplementedMessage);
             }
-#endregion
+
+            public override void ChangeColorTo(Color color)
+            {
+                throw new NotImplementedException(NotImplementedMessage);
+            }
+            #endregion
         }
     }
 }
