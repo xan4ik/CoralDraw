@@ -8,7 +8,7 @@ namespace UseCases
         {
             return;
         }
-        public Snapshot GetHandlerSnapshotParentTo(Snapshot figureSnapshot)
+        public Snapshot GetHandlerSnapshotRelativeTo(Snapshot figureSnapshot)
         {
             return default;    
         }

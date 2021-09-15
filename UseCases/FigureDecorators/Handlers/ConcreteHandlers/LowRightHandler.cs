@@ -7,7 +7,7 @@ namespace UseCases
         public LowRightHandler(Size handlerSize) : base(handlerSize)
         { }
 
-        public override Snapshot GetHandlerSnapshotParentTo(Snapshot figureSnapshot)
+        public override Snapshot GetHandlerSnapshotRelativeTo(Snapshot figureSnapshot)
         {
             var location = new Point()
             {

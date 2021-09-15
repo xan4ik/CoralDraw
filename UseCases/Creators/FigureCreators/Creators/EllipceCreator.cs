@@ -2,7 +2,7 @@
 
 namespace UseCases
 {
-    [FactoryKey("Ellipse")]
+    [CreatorKey("Ellipse")]
     class EllipceCreator : IFigureCreator
     {
         public IFigure CreateFigure(IDrawerFigureVisitor visitor, Snapshot snapshot)

@@ -84,8 +84,11 @@ namespace UseCases
 
         public void Draw(IDrawerAdapter adapter)
         {
-            attachedFigure.Draw(adapter);
-            DrawHandlers(adapter);
+            if (attachedFigure.IsNotDummy())
+            {
+                attachedFigure.Draw(adapter);
+                DrawHandlers(adapter);
+            }
         }
 
         private void DrawHandlers(IDrawerAdapter adapter)

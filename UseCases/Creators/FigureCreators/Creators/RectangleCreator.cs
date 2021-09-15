@@ -2,7 +2,7 @@
 
 namespace UseCases
 {
-    [FactoryKey("Rectangle")]
+    [CreatorKey("Rectangle")]
     class RectangleCreator : IFigureCreator
     {
         public IFigure CreateFigure(IDrawerFigureVisitor visitor, Snapshot snapshot)

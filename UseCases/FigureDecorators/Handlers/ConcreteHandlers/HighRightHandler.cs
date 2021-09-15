@@ -12,7 +12,7 @@ namespace UseCases
             figure.Resize(deltaX, 0);
         }
 
-        public override Snapshot GetHandlerSnapshotParentTo(Snapshot figurePose)
+        public override Snapshot GetHandlerSnapshotRelativeTo(Snapshot figurePose)
         {
             var location = new Point() {
                 X = figurePose.Location.X + figurePose.Size.Width - handlerSize.Width,

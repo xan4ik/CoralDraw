@@ -28,12 +28,12 @@ namespace UseCases
 
         private bool CanHandleType(Type type) 
         {
-            return type.GetCustomAttribute<FactoryKeyAttribute>(false) != null; 
+            return type.GetCustomAttribute<CreatorKeyAttribute>(false) != null; 
         }
 
         private string GetKeyOf(Type type) 
         {
-            return type.GetCustomAttribute<FactoryKeyAttribute>(false).Key;
+            return type.GetCustomAttribute<CreatorKeyAttribute>(false).Key;
         }
 
         private object CreateInstanceOf(Type type)

@@ -10,7 +10,7 @@ namespace UseCases
             this.handlerSize = handlerSize;
         }
 
-        public abstract Snapshot GetHandlerSnapshotParentTo(Snapshot figureSnapshot);
+        public abstract Snapshot GetHandlerSnapshotRelativeTo(Snapshot figureSnapshot);
 
         public abstract void Handle(IFigure figure, float deltaX, float deltaY);
     }

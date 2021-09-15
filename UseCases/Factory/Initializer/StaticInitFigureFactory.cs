@@ -1,6 +1,6 @@
 ﻿namespace UseCases
 {
-    public class StaticInit : IFactoryInitializer<string, IFigureCreator>
+    public class StaticInitFigureFactory : IFactoryInitializer<string, IFigureCreator>
     {
         public void Init(IFactory<string, IFigureCreator> factory)
         {

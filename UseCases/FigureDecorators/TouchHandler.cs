@@ -19,14 +19,14 @@ namespace UseCases
   
         public bool IsTouch(Snapshot figureSnapshot, Point touch)
         {
-            var handlerSnapshot = handler.GetHandlerSnapshotParentTo(figureSnapshot);
+            var handlerSnapshot = handler.GetHandlerSnapshotRelativeTo(figureSnapshot);
             return handlerSnapshot.ContainsPoint(touch);
         }
 
         public void Draw(IDrawerAdapter adapter, Snapshot figureSnapshot)
         {
-            var handlerSnapshot = handler.GetHandlerSnapshotParentTo(figureSnapshot);
-            adapter.DrawRectngle(handlerSnapshot.Location, handlerSnapshot.Size);
+            var handlerSnapshot = handler.GetHandlerSnapshotRelativeTo(figureSnapshot);
+            adapter.DrawBoundRectngle(handlerSnapshot.Location, handlerSnapshot.Size);
         }
 
     }
