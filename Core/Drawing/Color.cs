@@ -2,8 +2,8 @@
 {
     public struct Color
     {
-        public char Red;
-        public char Blue;
-        public char Green;
+        public byte Red;
+        public byte Blue;
+        public byte Green;
     }
 }
