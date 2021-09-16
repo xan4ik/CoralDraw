@@ -9,7 +9,8 @@ namespace UseCases
 
         public override void Handle(IFigure figure, float deltaX, float deltaY)
         {
-            figure.Resize(0, deltaY);
+            figure.Move(deltaX, 0);
+            figure.Resize(-deltaX, deltaY);
         }
 
         public override Snapshot GetHandlerSnapshotRelativeTo(Snapshot figurePose)

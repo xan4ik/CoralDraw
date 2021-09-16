@@ -21,7 +21,7 @@ namespace UseCases
 
         public FigureManipulator()
         {
-            var handlerSize = new Size(5, 5);
+            var handlerSize = new Size(10, 10);
             handlers = new Dictionary<Corner, TouchHandler>()
             {
                 { Corner.HighRight, new TouchHandler(new HighRightHandler(handlerSize), Corner.HighRight) },
@@ -29,8 +29,9 @@ namespace UseCases
                 { Corner.HighLeft, new TouchHandler(new HighLeftHandler(handlerSize), Corner.HighLeft) },
                 { Corner.LowLeft, new TouchHandler(new LowLeftHandler(handlerSize), Corner.LowLeft) },
                 { Corner.Center, new TouchHandler(new CenterHandler(handlerSize), Corner.Center) },
-                { Corner.None, new TouchHandler(new HighRightHandler(handlerSize), Corner.None) }
+                { Corner.None, new TouchHandler(new DummyHandler(), Corner.None) }
             };
+            attachedFigure = DummyFigure.GetInstance();
         }
 
         public void AttachTo(IFigure figure)

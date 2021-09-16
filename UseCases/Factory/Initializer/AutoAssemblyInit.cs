@@ -5,35 +5,35 @@ using System.Reflection;
 
 namespace UseCases
 {
-    public class AutoStringAssemblyInit<Factory> : IFactoryInitializer<string, Factory>
-    { //TODO: Handle Exception
-        public void Init(IFactory<string, Factory> factory)
+    public class AutoStringAssemblyInit<Creator> : IFactoryInitializer<string, Creator>
+    { //TODO: Handle Exception, FiX
+        public void Init(IFactory<string, Creator> factory)
         {
-            var factories = GetCreatorTypes();
+            var factories = GetCreatorTypes().ToArray();
             foreach (var factoryClass in factories)
             {
                 if (CanHandleType(factoryClass))
                 {
                     var key = GetKeyOf(factoryClass);
                     var instance = CreateInstanceOf(factoryClass);
-                    factory.AddCreator(key, (Factory)instance);
+                    factory.AddCreator(key, (Creator)instance);
                 }
             }
         }
 
         private IEnumerable<Type> GetCreatorTypes() 
         {
-            return Assembly.GetExecutingAssembly().GetTypes().Where(type => type.IsAssignableFrom(typeof(Factory)));
+            return Assembly.GetExecutingAssembly().GetTypes().Where(type => type.IsAssignableFrom(typeof(Creator)));
         }
 
         private bool CanHandleType(Type type) 
         {
-            return type.GetCustomAttribute<CreatorKeyAttribute>(false) != null; 
+            return type.GetCustomAttribute<CreatorKeyAttribute>(true) != null; 
         }
 
         private string GetKeyOf(Type type) 
         {
-            return type.GetCustomAttribute<CreatorKeyAttribute>(false).Key;
+            return type.GetCustomAttribute<CreatorKeyAttribute>(true).Key;
         }
 
         private object CreateInstanceOf(Type type)
