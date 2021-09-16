@@ -81,18 +81,20 @@ namespace ApiShell
                 this.color = color;
             }
 
+            public override void MouseMove(Point point)
+            {
+                return;
+            }
+
+
             #region OtherStateMethods
-            public override void MouseHold(Point point)
+
+            public override void KeyDown(Key key)
             {
                 throw new NotImplementedException(NotImplementedMessage);
             }
 
-            public override void KeyDown(string key)
-            {
-                throw new NotImplementedException(NotImplementedMessage);
-            }
-
-            public override void KeyUp(string key)
+            public override void KeyUp(Key key)
             {
                 throw new NotImplementedException(NotImplementedMessage);
             }

@@ -3,6 +3,13 @@ using System;
 
 namespace ApiShell
 {
+    public enum Key
+    {
+        Shift,
+        Ctrl,
+        Empty
+    };
+
 
     public partial class Redactor
     {
@@ -17,10 +24,10 @@ namespace ApiShell
             }
 
             public abstract void MouseDown(Point point);
-            public abstract void MouseHold(Point point);
+            public abstract void MouseMove(Point point);
             public abstract void MouseUp(Point point);
-            public abstract void KeyDown(string key);
-            public abstract void KeyUp(string key);
+            public abstract void KeyDown(Key key);
+            public abstract void KeyUp(Key key);
             public abstract void Draw(IDrawerAdapter adapter);
             public abstract void UpdateFigureCreator(string factoryKey);
             public abstract void UpdateDrawerCreator(string factoryKey);

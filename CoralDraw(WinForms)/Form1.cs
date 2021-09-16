@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using ApiShell;
 using Core;
@@ -22,48 +24,83 @@ namespace CoralDraw_WinForms
             adapter = new GraphicsAdapter(this.CreateGraphics());
             converter = new SystemDrawingToCoreConverter();
             redactor = new Redactor();
+            AllocConsole();
         }
 
         private void OnMouseDown(object sender, MouseEventArgs e) 
         {
-            redactor.MouseDown(converter.ConvertFrom(e.Location));
+            InvokeMethod(redactor.MouseDown, converter.ConvertFrom(e.Location));
         }
 
         private void OnMouseMove(object sender, MouseEventArgs e) 
         {
-            redactor.MouseMove(converter.ConvertFrom(e.Location));
+            InvokeMethod(redactor.MouseMove, converter.ConvertFrom(e.Location));
+            OnRefesh();
         }
 
         private void OnMouseUp(object sender, MouseEventArgs e) 
         {
-            redactor.MouseUp(converter.ConvertFrom(e.Location));
-            this.Refresh();
+            InvokeMethod(redactor.MouseUp, converter.ConvertFrom(e.Location));
         }
 
         private void OnKeyUp(object sender, KeyEventArgs e) 
         {
-            redactor.KeyUp(e.KeyData.ToString());
+            InvokeMethod(redactor.KeyUp, Key.Empty);
         }
 
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
-            redactor.KeyDown(e.KeyData.ToString());
+            if (e.Control)
+                InvokeMethod(redactor.KeyDown, Key.Ctrl);
+            else if (e.Shift)
+                InvokeMethod(redactor.KeyDown, Key.Shift);
         }
 
-        private void OnRefesh(object sender, PaintEventArgs e) 
+        private void OnRefesh() 
         {
-            redactor.Draw(adapter);
+            Refresh();
+            InvokeMethod(redactor.Draw, adapter);
         }
 
-        private void OnChangeFigureFactory(object sender, System.EventArgs e)
+        private void OnChangeFigureFactory(object sender, EventArgs e)
         {
-            redactor.UpdateFigureCreator(comboBox1.SelectedItem.ToString());
+            InvokeMethod(redactor.UpdateFigureCreator, comboBox1.SelectedItem.ToString());
         }
 
-        private void OnChangeDrawerFactory(object sender, System.EventArgs e)
+        private void OnChangeDrawerFactory(object sender, EventArgs e)
         {
-            redactor.UpdateDrawerCreator(comboBox2.SelectedItem.ToString());
+            InvokeMethod(redactor.UpdateDrawerCreator, comboBox2.SelectedItem.ToString());
         }
+
+        private void OnChangeState(object sender, EventArgs e)
+        {
+            redactor.SwitchState();
+        }
+
+        private void OnChangeColor(object sender, EventArgs e)
+        {
+            if (colorDialog1.ShowDialog() == DialogResult.OK) 
+            {
+                var convertedColor = converter.ConvertFrom(colorDialog1.Color);
+                InvokeMethod(redactor.ChangeColorTo, convertedColor);    
+            }
+        }
+
+        private void InvokeMethod<T>(Action<T> action, T param) 
+        {
+            try
+            {
+                action.Invoke(param);
+            }
+            catch (Exception exc) 
+            {
+                MessageBox.Show(exc.Message);
+            }
+        }
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool AllocConsole();
     }
 
 

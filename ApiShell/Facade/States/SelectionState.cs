@@ -1,5 +1,6 @@
 ﻿using Core;
 using System;
+using System.Collections.Generic;
 using UseCases;
 
 namespace ApiShell
@@ -8,77 +9,71 @@ namespace ApiShell
     {
         private class SelectionState : FacadeState
         {
+            private Dictionary<Key, ISelectOption> options;
             private FigureManipulator manipulator;
             private ISelectOption selectOption;
-            private Point pointDown;
+            private Point lastTouch;
             private bool isMouseDown;
 
             public SelectionState(Redactor parent) : base(parent)
             {
+                options = new Dictionary<Key, ISelectOption>();
                 manipulator = new FigureManipulator();
+                selectOption = new DefaultOption();
+
+                options.Add(Key.Shift, new ShiftPressed());
+                options.Add(Key.Ctrl, new CtrlPressed());
             }
 
-            public override void KeyDown(string key)
+            public override void KeyDown(Key key)
             {
-                if (key == "Shift")
-                {
-                    selectOption = new ShiftPressed();
-                }
-                else if (key == "Ctrl") 
-                {
-                    selectOption = new CtrlPressed();
-                }
+                selectOption = options[key];
             }
 
-            public override void KeyUp(string key)
+            public override void KeyUp(Key key)
             {
                 selectOption = new DefaultOption();
             }
 
-            //TODO: handle touch
+            //TODO: Fix it
             public override void MouseDown(Point touch)
             {
                 var selectedFigure = selectOption.GetFigureByTouch(parent.figures, touch);
+                
+                manipulator.AttachTo(selectedFigure);
+                manipulator.HandleTouch(touch);                
 
-                if (selectedFigure.IsNotDummy())
-                {
-                    manipulator.HandleTouch(touch);
-                    manipulator.AttachTo(selectedFigure);
-                }
+               
 
-                if (!manipulator.IsTouched(touch))
-                {
-                    manipulator.Detach();
-                }
-                pointDown = touch;
+                lastTouch = touch;
                 isMouseDown = true;
             }
 
-            public override void MouseHold(Point point)
+            public override void MouseMove(Point touch)
             {
                 if (isMouseDown) 
                 {
-                    float dx = point.X - pointDown.X;
-                    float dy = point.Y - pointDown.Y;
+                    float dx = touch.X - lastTouch.X;
+                    float dy = touch.Y - lastTouch.Y;
+
                     manipulator.Drag(dx, dy);
-                    pointDown = point;
+                    lastTouch = touch;
                 }
             }
 
-            public override void MouseUp(Point point)
+            public override void MouseUp(Point touch)
             {
-                manipulator.Detach();
                 isMouseDown = false;
             }
 
 
             public override void Draw(IDrawerAdapter adapter)
             {
-                manipulator.Draw(adapter);
                 foreach (var figure in parent.figures) 
                 {
                     figure.Draw(adapter);
                 }
+                manipulator.Draw(adapter);
             }
             
 #region OtherStateMethods

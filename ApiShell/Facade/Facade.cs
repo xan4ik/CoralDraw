@@ -31,9 +31,9 @@ namespace ApiShell
             state.MouseDown(point);
         }
         
-        public  void MouseMove(Point point)
+        public void MouseMove(Point point)
         {
-            state.MouseDown(point);
+            state.MouseMove(point);
         }
         
         public  void MouseUp(Point point)
@@ -41,12 +41,12 @@ namespace ApiShell
             state.MouseUp(point);
         }
         
-        public void KeyDown(string key)
+        public void KeyDown(Key key)
         {
             state.KeyDown(key);
         }
         
-        public void KeyUp(string key)
+        public void KeyUp(Key key)
         {
             state.KeyUp(key);
         }
