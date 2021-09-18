@@ -9,6 +9,7 @@ namespace CoralDraw_WinForms
 {
     public partial class Form1 : Form
     {
+        private EventArgumentsConverter eventConvrter;
         private SystemDrawingToCoreConverter converter;
         private GraphicsAdapter adapter;
         private Redactor redactor;
@@ -27,62 +28,87 @@ namespace CoralDraw_WinForms
             AllocConsole();
         }
 
-        private void OnMouseDown(object sender, MouseEventArgs e) 
+        private void OnMouseDown(object sender, System.Windows.Forms.MouseEventArgs e) 
         {
-            InvokeMethod(redactor.MouseDown, converter.ConvertFrom(e.Location));
+            InvokeMethod(
+                redactor.InvokeEventFor, 
+                eventConvrter.ConvertFrom(e, ClickType.Down)
+            );
         }
 
-        private void OnMouseMove(object sender, MouseEventArgs e) 
+        private void OnMouseMove(object sender, System.Windows.Forms.MouseEventArgs e) 
         {
-            InvokeMethod(redactor.MouseMove, converter.ConvertFrom(e.Location));
+            InvokeMethod(
+                redactor.InvokeEventFor, 
+                eventConvrter.ConvertFrom(e, ClickType.Hold)
+            );
             OnRefesh();
         }
 
-        private void OnMouseUp(object sender, MouseEventArgs e) 
+        private void OnMouseUp(object sender, System.Windows.Forms.MouseEventArgs e) 
         {
-            InvokeMethod(redactor.MouseUp, converter.ConvertFrom(e.Location));
+            InvokeMethod(
+                redactor.InvokeEventFor, 
+                eventConvrter.ConvertFrom(e, ClickType.Up)
+            );
         }
 
-        private void OnKeyUp(object sender, KeyEventArgs e) 
+        private void OnKeyUp(object sender, System.Windows.Forms.KeyEventArgs e) 
         {
-            InvokeMethod(redactor.KeyUp, Key.Empty);
+            InvokeMethod(
+                redactor.InvokeEventFor, 
+                eventConvrter.ConvertFrom(e, ClickType.Up)
+            );
         }
 
-        private void OnKeyDown(object sender, KeyEventArgs e)
+        private void OnKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            if (e.Control)
-                InvokeMethod(redactor.KeyDown, Key.Ctrl);
-            else if (e.Shift)
-                InvokeMethod(redactor.KeyDown, Key.Shift);
+            InvokeMethod(
+                redactor.InvokeEventFor, 
+                eventConvrter.ConvertFrom(e, ClickType.Down)
+            );
         }
 
         private void OnRefesh() 
         {
             Refresh();
-            InvokeMethod(redactor.Draw, adapter);
+            InvokeMethod(
+                    redactor.InvokeEventFor, 
+                    adapter
+            );
         }
 
         private void OnChangeFigureFactory(object sender, EventArgs e)
         {
-            InvokeMethod(redactor.UpdateFigureCreator, comboBox1.SelectedItem.ToString());
+            InvokeMethod(
+                redactor.InvokeEventFor,
+                eventConvrter.CreateArgsForFigureFactory(
+                    comboBox1.SelectedItem.ToString())
+            );
         }
 
         private void OnChangeDrawerFactory(object sender, EventArgs e)
         {
-            InvokeMethod(redactor.UpdateDrawerCreator, comboBox2.SelectedItem.ToString());
+            InvokeMethod(
+                redactor.InvokeEventFor,
+                eventConvrter.CreateArgsForDrawerFactory(
+                    comboBox2.SelectedItem.ToString())
+            );
         }
 
         private void OnChangeState(object sender, EventArgs e)
         {
-            redactor.SwitchState();
+            redactor.SwapState();
         }
 
         private void OnChangeColor(object sender, EventArgs e)
         {
             if (colorDialog1.ShowDialog() == DialogResult.OK) 
             {
-                var convertedColor = converter.ConvertFrom(colorDialog1.Color);
-                InvokeMethod(redactor.ChangeColorTo, convertedColor);    
+                InvokeMethod(
+                    redactor.InvokeEventFor,
+                    converter.ConvertFrom(colorDialog1.Color)
+                );    
             }
         }
 
@@ -154,6 +180,86 @@ namespace CoralDraw_WinForms
             pen.Color = convertedColor;
         }
     }
+
+    class EventArgumentsConverter
+    {
+        private SystemDrawingToCoreConverter converter;
+        public EventArgumentsConverter()
+        {
+            converter = new SystemDrawingToCoreConverter();
+        }
+
+        public ApiShell.MouseEventArgs ConvertFrom(System.Windows.Forms.MouseEventArgs args, ClickType type)
+        {
+            var eventData = new ApiShell.MouseEventArgs()
+            {
+                Touch = converter.ConvertFrom(args.Location),
+                Mouse = ConvertFrom(args.Button),
+                Type = type
+            };
+            return eventData;
+        }
+
+        private MouseType ConvertFrom(MouseButtons button)
+        {
+            switch (button)
+            {
+                case MouseButtons.Left:
+                    return MouseType.Left;
+                case MouseButtons.Right:
+                    return MouseType.Right;
+                case MouseButtons.Middle:
+                    return MouseType.Midle;
+                default:
+                    throw new ArgumentException("Unsupported mouse button!");
+            }
+        }
+
+        public ApiShell.KeyEventArgs ConvertFrom(System.Windows.Forms.KeyEventArgs args, ClickType type) 
+        {
+            var eventData = new ApiShell.KeyEventArgs()
+            {
+                Key = ConvertFrom(args),
+                Type = type
+            };
+            return eventData;
+        }
+
+        private string ConvertFrom(System.Windows.Forms.KeyEventArgs args)
+        {
+            if (args.Shift)
+            {
+                return "shift";
+            }
+            else if (args.Control) 
+            {
+                return "ctrl";
+            }
+            return args.KeyData.ToString();
+        }
+
+        public ApiShell.ChangeCreatorEventArgs CreateArgsForFigureFactory(string creatorKey) 
+        {
+            var eventArgs = new ChangeCreatorEventArgs()
+            {
+                IsFigureFactory = true,
+                Key = creatorKey
+            };
+            return eventArgs;
+        }
+
+        public ApiShell.ChangeCreatorEventArgs CreateArgsForDrawerFactory(string creatorKey)
+        {
+            var eventArgs = new ChangeCreatorEventArgs()
+            {
+                IsFigureFactory = false,
+                Key = creatorKey
+            };
+            return eventArgs;
+        }
+    }
+
+
     class CoreToSystemDrawingConverter 
     {
         public System.Drawing.Color ConvertFrom(Core.Color color)
@@ -172,6 +278,7 @@ namespace CoralDraw_WinForms
         }
 
     }
+
     class SystemDrawingToCoreConverter
     {
         public Core.Color ConvertFrom(System.Drawing.Color color) 

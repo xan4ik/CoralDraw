@@ -83,11 +83,11 @@ namespace UseCases
             handlers[activeHandler].Handle(attachedFigure, deltaX, deltaY);
         }
 
-        public void Draw(IDrawerAdapter adapter)
+        public void DrawWith(IDrawerAdapter adapter)
         {
             if (attachedFigure.IsNotDummy())
             {
-                attachedFigure.Draw(adapter);
+                attachedFigure.DrawWith(adapter);
                 DrawHandlers(adapter);
             }
         }

@@ -27,7 +27,7 @@ namespace UseCases
             return dummy;
         }
 
-        public void Draw(IDrawerAdapter adapter)
+        public void DrawWith(IDrawerAdapter adapter)
         {
             return;
         }

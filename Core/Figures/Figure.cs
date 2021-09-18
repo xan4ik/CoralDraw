@@ -25,7 +25,7 @@
             transform.Resize(deltaWigth, deltaHeight);
         }
 
-        public void Draw(IDrawerAdapter adapter) 
+        public void DrawWith(IDrawerAdapter adapter) 
         {
             OnDraw(adapter, visitor);
         }

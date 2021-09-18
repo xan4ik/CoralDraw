@@ -59,11 +59,11 @@ namespace Core
             throw new NotImplementedException();
         }
         
-        public void Draw(IDrawerAdapter adapter)
+        public void DrawWith(IDrawerAdapter adapter)
         {
             foreach (var figure in figures) 
             {
-                figure.Draw(adapter);
+                figure.DrawWith(adapter);
             }
         }
 
