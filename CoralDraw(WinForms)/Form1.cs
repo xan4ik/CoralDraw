@@ -2,13 +2,14 @@
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using ApiShell;
+using Core;
 
 namespace CoralDraw_WinForms
 {
     public partial class Form1 : Form
     {
-        private EventArgumentsConverter eventConvrter;
         private SystemDrawingToCoreConverter converter;
+        private EventArgumentsConverter eventConverter;
         private GraphicsAdapter adapter;
         private Redactor redactor;
 
@@ -21,6 +22,7 @@ namespace CoralDraw_WinForms
         private void InitContent()
         {
             adapter = new GraphicsAdapter(this.CreateGraphics());
+            eventConverter = new EventArgumentsConverter();
             converter = new SystemDrawingToCoreConverter();
             redactor = new Redactor();
             AllocConsole();
@@ -29,16 +31,16 @@ namespace CoralDraw_WinForms
         private void OnMouseDown(object sender, System.Windows.Forms.MouseEventArgs e) 
         {
             InvokeMethod(
-                redactor.InvokeEventFor, 
-                eventConvrter.ConvertFrom(e, ClickType.Down)
+                redactor.InvokeHandlerFor, 
+                eventConverter.ConvertFrom(e, ClickType.Down)
             );
         }
 
         private void OnMouseMove(object sender, System.Windows.Forms.MouseEventArgs e) 
         {
             InvokeMethod(
-                redactor.InvokeEventFor, 
-                eventConvrter.ConvertFrom(e, ClickType.Hold)
+                redactor.InvokeHandlerFor, 
+                eventConverter.ConvertFrom(e, ClickType.Hold)
             );
             OnRefesh();
         }
@@ -46,24 +48,24 @@ namespace CoralDraw_WinForms
         private void OnMouseUp(object sender, System.Windows.Forms.MouseEventArgs e) 
         {
             InvokeMethod(
-                redactor.InvokeEventFor, 
-                eventConvrter.ConvertFrom(e, ClickType.Up)
+                redactor.InvokeHandlerFor, 
+                eventConverter.ConvertFrom(e, ClickType.Up)
             );
         }
 
         private void OnKeyUp(object sender, System.Windows.Forms.KeyEventArgs e) 
         {
             InvokeMethod(
-                redactor.InvokeEventFor, 
-                eventConvrter.ConvertFrom(e, ClickType.Up)
+                redactor.InvokeHandlerFor, 
+                eventConverter.ConvertFrom(e, ClickType.Up)
             );
         }
 
         private void OnKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             InvokeMethod(
-                redactor.InvokeEventFor, 
-                eventConvrter.ConvertFrom(e, ClickType.Down)
+                redactor.InvokeHandlerFor, 
+                eventConverter.ConvertFrom(e, ClickType.Down)
             );
         }
 
@@ -71,7 +73,7 @@ namespace CoralDraw_WinForms
         {
             Refresh();
             InvokeMethod(
-                    redactor.InvokeEventFor, 
+                    redactor.InvokeHandlerFor<IDrawerAdapter>, 
                     adapter
             );
         }
@@ -79,8 +81,8 @@ namespace CoralDraw_WinForms
         private void OnChangeFigureFactory(object sender, EventArgs e)
         {
             InvokeMethod(
-                redactor.InvokeEventFor,
-                eventConvrter.CreateArgsForFigureFactory(
+                redactor.InvokeHandlerFor,
+                eventConverter.CreateArgsForFigureFactory(
                     comboBox1.SelectedItem.ToString())
             );
         }
@@ -88,8 +90,8 @@ namespace CoralDraw_WinForms
         private void OnChangeDrawerFactory(object sender, EventArgs e)
         {
             InvokeMethod(
-                redactor.InvokeEventFor,
-                eventConvrter.CreateArgsForDrawerFactory(
+                redactor.InvokeHandlerFor,
+                eventConverter.CreateArgsForDrawerFactory(
                     comboBox2.SelectedItem.ToString())
             );
         }
@@ -104,7 +106,7 @@ namespace CoralDraw_WinForms
             if (colorDialog1.ShowDialog() == DialogResult.OK) 
             {
                 InvokeMethod(
-                    redactor.InvokeEventFor,
+                    redactor.InvokeHandlerFor,
                     converter.ConvertFrom(colorDialog1.Color)
                 );    
             }
@@ -112,11 +114,12 @@ namespace CoralDraw_WinForms
 
         private void InvokeMethod<T>(Action<T> action, T param) 
         {
+
             try
             {
                 action.Invoke(param);
             }
-            catch (Exception exc) 
+            catch (Exception exc)
             {
                 MessageBox.Show(exc.Message);
             }

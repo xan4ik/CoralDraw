@@ -2,6 +2,6 @@
 {
     public enum MouseType 
     {
-        Right, Left, Midle
+        Right, Left, Midle, None
     }
 }

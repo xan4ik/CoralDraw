@@ -22,15 +22,10 @@ namespace ApiShell
             if (figure.IsNotDummy())
             {
                 HandleFigure(figure);
-                return composite;
+                return GetResult();
             }
             CleanUpComposite();
             return DummyFigure.GetInstance();
-        }
-
-        private void CleanUpComposite()
-        {
-            composite = new Composite();
         }
 
         private void HandleFigure(IFigure figure)
@@ -39,7 +34,22 @@ namespace ApiShell
             {
                 composite.AddFigure(figure);
             }
-            else composite.RemoveFigure(figure);
+            else  composite.RemoveFigure(figure); 
+        }
+
+        private IFigure GetResult()
+        {
+            if (composite.IsEmpty()) 
+            {
+                return DummyFigure.GetInstance();
+            }
+            return composite;
+        }
+
+        private void CleanUpComposite()
+        {
+            //TODO: Maybe clear() ?
+            composite = new Composite();
         }
     }
 }

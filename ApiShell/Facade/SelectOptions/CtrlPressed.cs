@@ -7,61 +7,53 @@ namespace ApiShell
 {
     public class CtrlPressed : ISelectOption
     {
+        private DefaultOption option;
         private IFigure lastFigure;
+
         public CtrlPressed()
         {
             lastFigure = DummyFigure.GetInstance();
+            option = new DefaultOption();
         }
 
         public IFigure GetFigureByTouch(IEnumerable<IFigure> figures, Point touch)
         {
             if (lastFigure.IsDummy())
             {
-                FindFirst(figures, touch);
+                lastFigure = option.GetFigureByTouch(figures, touch);
                 return lastFigure;
             }
-
-            FindNext(figures, touch);
-            return lastFigure;
-        }
-
-        private void FindFirst(IEnumerable<IFigure> figures, Point touch)
-        {
-            lastFigure = DummyFigure.GetInstance();
-            foreach (var figure in figures)
+            else
             {
-                if (figure.IsTouched(touch))
-                {
-                    lastFigure = figure;
-                }
+                lastFigure = FindNext(figures, touch);
+                return lastFigure;
             }
         }
 
-        private void FindNext(IEnumerable<IFigure> figures, Point location)
+        private IFigure FindNext(IEnumerable<IFigure> figures, Point touch)
         {
             IEnumerator<IFigure> iterator = figures.GetEnumerator();
-            MoveToPrevious(iterator);
-            FindFigureAfterPrevious(iterator, location);
+            return GetNextAfterPrevious(iterator, touch);
         }
 
-        private void MoveToPrevious(IEnumerator<IFigure> figures) 
+        private IFigure GetNextAfterPrevious(IEnumerator<IFigure> iterator, Point touch)
         {
-            while (figures.MoveNext() && !figures.Current.Equals(lastFigure)) 
+            bool previousFinded = false;
+            do
             {
-                continue;
-            }
-        }
-
-        private void FindFigureAfterPrevious(IEnumerator<IFigure> figures, Point touch) 
-        {
-            while (figures.MoveNext())
-            {
-                if (figures.Current.IsTouched(touch))
+                if (iterator.Current == lastFigure)
                 {
-                    lastFigure = figures.Current;
+                    previousFinded = true;
+                    continue;
                 }
-            }
-            lastFigure = DummyFigure.GetInstance();
+                if (previousFinded && iterator.Current.IsTouched(touch))
+                {
+                    return iterator.Current;
+                }
+
+            }  while (iterator.MoveNext());
+            
+            return DummyFigure.GetInstance();
         }
     }
 }

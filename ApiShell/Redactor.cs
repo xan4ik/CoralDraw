@@ -30,12 +30,12 @@ namespace ApiShell
 
         public void SwapState()
         {
-            var currentState = this.currentState;
-            this.currentState = lastActiveState;
-            lastActiveState = currentState;
+            var activeState = currentState;
+            currentState = lastActiveState;
+            lastActiveState = activeState;
         }
 
-        public void InvokeEventFor<T>(T args)
+        public void InvokeHandlerFor<T>(T args)
         {
             currentState
                 .GetHandler<IStateHandler<T>>()

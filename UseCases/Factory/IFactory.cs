@@ -1,9 +1,9 @@
 ﻿namespace UseCases
 {
-    public interface IFactory <Key, Factory>
+    public interface IFactory <Key, Creator>
     {
-        Factory GetCreator(Key key);
-        void AddCreator(Key key, Factory factory);
+        Creator GetCreator(Key key);
+        void AddCreator(Key key, Creator factory);
         void RemoveCreator(Key key);
     }
 }

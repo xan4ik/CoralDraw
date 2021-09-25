@@ -17,6 +17,11 @@ namespace Core
             }
         }
 
+        public bool IsEmpty() 
+        {
+            return figures.Count == 0;
+        }
+
         public void AddFigure(IFigure figure) 
         {
             if (NotContains(figure))
@@ -56,7 +61,10 @@ namespace Core
 
         public void Resize(float deltaWigth, float deltaHeight)
         {
-            throw new NotImplementedException();
+            foreach (var figure in figures)
+            {
+                figure.Resize(deltaWigth, deltaHeight);
+            }
         }
         
         public void DrawWith(IDrawerAdapter adapter)

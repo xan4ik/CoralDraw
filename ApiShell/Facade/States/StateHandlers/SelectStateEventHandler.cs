@@ -10,7 +10,7 @@ namespace ApiShell
         IStateHandler<KeyEventArgs>,
         IStateHandler<IDrawerAdapter>
     {
-        private Dictionary<char, ISelectOption> options;
+        private Dictionary<string, ISelectOption> options;
         private DefaultDrawEventHadler defaultDraw;
         private FigureManipulator manipulator;
         private ISelectOption selectOption;
@@ -19,10 +19,10 @@ namespace ApiShell
 
         public SelectStateEventHandler()
         {
-            options = new Dictionary<char, ISelectOption>()
+            options = new Dictionary<string, ISelectOption>()
             {
-                {'shift', new ShiftPressed() },
-                {'ctrl', new CtrlPressed() }
+                {"shift", new ShiftPressed() },
+                {"ctrl", new CtrlPressed() }
             };
             defaultDraw = new DefaultDrawEventHadler();
             manipulator = new FigureManipulator();
@@ -66,8 +66,11 @@ namespace ApiShell
 
         private void HandleRightClick(MouseEventArgs args, Redactor redactor) 
         {
-            var figure = selectOption.GetFigureByTouch(redactor.Figures, args.Touch);
-            manipulator.AttachTo(figure);
+            if (args.Type == ClickType.Down)
+            {
+                var figure = selectOption.GetFigureByTouch(redactor.Figures, args.Touch);
+                manipulator.AttachTo(figure);
+            }
         }
 
         private void OnLeftMouseDown(MouseEventArgs args, Redactor redactor) 

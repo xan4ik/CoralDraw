@@ -33,6 +33,8 @@ namespace CoralDraw_WinForms
                     return MouseType.Right;
                 case MouseButtons.Middle:
                     return MouseType.Midle;
+                case MouseButtons.None:
+                    return MouseType.None;
                 default:
                     throw new ArgumentException("Unsupported mouse button!");
             }
