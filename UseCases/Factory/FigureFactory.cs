@@ -2,7 +2,7 @@
 {
     public class FigureFactory : BaseFactory<string, IFigureCreator>
     {
-        public FigureFactory() : base(new StaticInitFigureFactory())
+        public FigureFactory(IFactoryInitializer<string, IFigureCreator> initializer) : base(initializer)
         { }
     }
 }

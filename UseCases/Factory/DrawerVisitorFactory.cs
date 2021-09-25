@@ -2,7 +2,7 @@
 {
     public class DrawerVisitorFactory : BaseFactory<string, IDrawerCreator>
     {
-        public DrawerVisitorFactory() : base(new StaticInitDrawerVisitorFactory())
+        public DrawerVisitorFactory(IFactoryInitializer<string, IDrawerCreator> initializer) : base(initializer)
         { }
     }
 }

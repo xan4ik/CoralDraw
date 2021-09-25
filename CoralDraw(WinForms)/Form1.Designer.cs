@@ -31,9 +31,9 @@ namespace CoralDraw_WinForms
         {
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.stateButton = new System.Windows.Forms.Button();
+            this.colorButton = new System.Windows.Forms.Button();
+            this.colorDialog = new System.Windows.Forms.ColorDialog();
             this.SuspendLayout();
             // 
             // comboBox1
@@ -64,31 +64,31 @@ namespace CoralDraw_WinForms
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(171, 13);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(123, 29);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Change state";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.OnChangeState);
+            this.stateButton.Location = new System.Drawing.Point(171, 13);
+            this.stateButton.Name = "button1";
+            this.stateButton.Size = new System.Drawing.Size(123, 29);
+            this.stateButton.TabIndex = 2;
+            this.stateButton.Text = "Change state";
+            this.stateButton.UseVisualStyleBackColor = true;
+            this.stateButton.Click += new System.EventHandler(this.OnChangeState);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(171, 45);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(123, 29);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "Color";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.OnChangeColor);
+            this.colorButton.Location = new System.Drawing.Point(171, 45);
+            this.colorButton.Name = "button2";
+            this.colorButton.Size = new System.Drawing.Size(123, 29);
+            this.colorButton.TabIndex = 3;
+            this.colorButton.Text = "Color";
+            this.colorButton.UseVisualStyleBackColor = true;
+            this.colorButton.Click += new System.EventHandler(this.OnChangeColor);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1338, 635);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.colorButton);
+            this.Controls.Add(this.stateButton);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.comboBox1);
             this.KeyPreview = true;
@@ -107,9 +107,9 @@ namespace CoralDraw_WinForms
 
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.Button stateButton;
+        private System.Windows.Forms.Button colorButton;
+        private System.Windows.Forms.ColorDialog colorDialog;
     }
 }
 

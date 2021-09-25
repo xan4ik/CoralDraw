@@ -99,15 +99,16 @@ namespace CoralDraw_WinForms
         private void OnChangeState(object sender, EventArgs e)
         {
             redactor.SwapState();
+            stateButton.Text = redactor.ActiveStateName();
         }
 
         private void OnChangeColor(object sender, EventArgs e)
         {
-            if (colorDialog1.ShowDialog() == DialogResult.OK) 
+            if (colorDialog.ShowDialog() == DialogResult.OK) 
             {
                 InvokeMethod(
                     redactor.InvokeHandlerFor,
-                    converter.ConvertFrom(colorDialog1.Color)
+                    converter.ConvertFrom(colorDialog.Color)
                 );    
             }
         }

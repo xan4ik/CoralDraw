@@ -1,6 +1,6 @@
 ﻿namespace UseCases
 {
-    class StaticInitDrawerVisitorFactory : IFactoryInitializer<string, IDrawerCreator>
+    public class StaticInitDrawerVisitorFactory : IFactoryInitializer<string, IDrawerCreator>
     {
         public void Init(IFactory<string, IDrawerCreator> factory)
         {

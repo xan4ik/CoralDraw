@@ -19,8 +19,8 @@ namespace ApiShell
 
         public CreateStateEventHandler()
         {
-            drawerFactory = new DrawerVisitorFactory();
-            figureFactory = new FigureFactory();
+            drawerFactory = new DrawerVisitorFactory(new StaticInitDrawerVisitorFactory());
+            figureFactory = new FigureFactory(new StaticInitFigureFactory());
         }
 
         public void Handle(Color args, Redactor redactor)
@@ -70,13 +70,13 @@ namespace ApiShell
 
         private IFigure CreateFigure(Point touch)
         {
-            var snapshot = GetFigureSnapshot(lastTouch, touch);
+            var snapshot = CreateFigureSnapshot(lastTouch, touch);
             var drawer = drawerCreator.CreateDrawer(color);
 
             return  figureCreator.CreateFigure(drawer, snapshot);
         }
 
-        private Snapshot GetFigureSnapshot(Point pointDown, Point pointUp)
+        private Snapshot CreateFigureSnapshot(Point pointDown, Point pointUp)
         {
             var location = new Point()
             {

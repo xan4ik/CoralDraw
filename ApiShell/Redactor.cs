@@ -27,19 +27,23 @@ namespace ApiShell
         {
             return currentState.StateName;
         }
+        public void UndoLastAction() 
+        {
+            History.UndoLastCommand();
+        }
+        
+        public void InvokeHandlerFor<T>(T args)
+        {
+            currentState
+                .GetHandler<IStateHandler<T>>()
+                .Handle(args, this);
+        }
 
         public void SwapState()
         {
             var activeState = currentState;
             currentState = lastActiveState;
             lastActiveState = activeState;
-        }
-
-        public void InvokeHandlerFor<T>(T args)
-        {
-            currentState
-                .GetHandler<IStateHandler<T>>()
-                .Handle(args, this);
         }
     }
 }

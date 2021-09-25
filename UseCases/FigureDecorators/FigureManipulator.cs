@@ -13,7 +13,7 @@ namespace UseCases
         None
     }
 
-    public class FigureManipulator : IFigure, IToucheable
+    public class FigureManipulator : IFigure
     {
         private Dictionary<Corner, TouchHandler> handlers;
         private IFigure attachedFigure;
