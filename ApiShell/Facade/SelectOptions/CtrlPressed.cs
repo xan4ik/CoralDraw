@@ -33,27 +33,33 @@ namespace ApiShell
         private IFigure FindNext(IEnumerable<IFigure> figures, Point touch)
         {
             IEnumerator<IFigure> iterator = figures.GetEnumerator();
+            MoveToPrevious(iterator);
             return GetNextAfterPrevious(iterator, touch);
+        }
+
+        private void MoveToPrevious(IEnumerator<IFigure> iterator)
+        {
+            while (iterator.MoveNext()) 
+            {
+                if (iterator.Current.Equals(lastFigure))
+                {
+                    return;
+                }
+            }
         }
 
         private IFigure GetNextAfterPrevious(IEnumerator<IFigure> iterator, Point touch)
         {
-            bool previousFinded = false;
-            do
+            while (iterator.MoveNext()) 
             {
-                if (iterator.Current == lastFigure)
-                {
-                    previousFinded = true;
-                    continue;
-                }
-                if (previousFinded && iterator.Current.IsTouched(touch))
+                if (iterator.Current.IsTouched(touch))
                 {
                     return iterator.Current;
                 }
-
-            }  while (iterator.MoveNext());
-            
+            }
             return DummyFigure.GetInstance();
         }
+
+
     }
 }
