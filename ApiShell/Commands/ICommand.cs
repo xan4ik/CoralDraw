@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ApiShell
 {
-    interface ICommand
+    public interface ICommand
     {
         void Execute();
         void Undo();

@@ -131,7 +131,6 @@ namespace CoralDraw_WinForms
 
         private void InvokeMethod<T>(Action<T> action, T param) 
         {
-
             try
             {
                 action.Invoke(param);

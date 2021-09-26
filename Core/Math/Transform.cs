@@ -28,7 +28,4 @@
             size.Height += deltaHeight;
         }
     }
-
-
-
 }

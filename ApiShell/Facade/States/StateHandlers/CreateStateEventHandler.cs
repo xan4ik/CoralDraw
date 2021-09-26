@@ -65,7 +65,9 @@ namespace ApiShell
         private void OnMouseUp(MouseEventArgs args, Redactor redactor)
         {
             var figure = CreateFigure(args.Touch);
-            redactor.Figures.Add(figure); // TODO: maybe internal method
+            redactor.History.ExecuteCommand(
+                    new FigureCreateCommand(redactor.Figures, figure)
+                );
         }
 
         private IFigure CreateFigure(Point touch)
