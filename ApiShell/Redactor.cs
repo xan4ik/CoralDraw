@@ -5,15 +5,13 @@ namespace ApiShell
 {
     public partial class Redactor
     {
-        internal CommandHistory History;
-        internal List<IFigure> Figures;
+        private RedactorCore core;
         private State lastActiveState;
         private State currentState;
 
         public Redactor()
         {
-            History = new CommandHistory();
-            Figures = new List<IFigure>();
+            core = new RedactorCore();
             currentState = new State("Creation",
                 new CreateStateEventHandler(),
                 new DefaultDrawEventHadler()
@@ -29,14 +27,14 @@ namespace ApiShell
         }
         public void UndoLastAction() 
         {
-            History.UndoLastCommand();
+            core.History.UndoLastCommand();
         }
         
         public void InvokeHandlerFor<T>(T args)
         {
             currentState
                 .GetHandler<IStateHandler<T>>()
-                .Handle(args, this);
+                .Handle(args, core);
         }
 
         public void SwapState()
@@ -44,6 +42,20 @@ namespace ApiShell
             var activeState = currentState;
             currentState = lastActiveState;
             lastActiveState = activeState;
+        }
+    }
+
+    internal class RedactorCore 
+    {
+        internal CommandHistory History;
+        internal List<IFigure> Figures;
+        internal StateEventBus EventBus;
+
+        public RedactorCore()
+        {
+            History = new CommandHistory();
+            Figures = new List<IFigure>();
+            EventBus = new StateEventBus();
         }
     }
 }

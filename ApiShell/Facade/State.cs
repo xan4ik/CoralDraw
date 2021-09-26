@@ -48,7 +48,7 @@ namespace ApiShell
 
     public class HandlerNotFoundException<T> : Exception
     {
-        public HandlerNotFoundException() : base($"Required type \"{typeof(T).ToString()}\" is't exist")
+        public HandlerNotFoundException() : base($"Required type <{typeof(T).ToString()}> isn't exist")
         { }
     }
 }

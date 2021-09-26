@@ -5,9 +5,9 @@ namespace ApiShell
 {
     internal class DefaultDrawEventHadler : IStateHandler<IDrawerAdapter>
     {
-        public void Handle(IDrawerAdapter args, Redactor redactor)
+        public void Handle(IDrawerAdapter args, RedactorCore core)
         {
-            foreach (var figure in redactor.Figures)
+            foreach (var figure in core.Figures)
             {
                 figure.DrawWith(args);
             }

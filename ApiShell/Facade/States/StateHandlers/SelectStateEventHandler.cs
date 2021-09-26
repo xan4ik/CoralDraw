@@ -31,50 +31,50 @@ namespace ApiShell
         }
 
 
-        public void Handle(MouseEventArgs args, Redactor redactor)
+        public void Handle(MouseEventArgs args, RedactorCore core)
         {
             if (args.Mouse == MouseType.Right)
             {
-                HandleRightClick(args, redactor);
+                HandleRightClick(args, core);
             }
             else if (args.Mouse == MouseType.Left) 
             {
-                HandleLeftClick(args, redactor);
+                HandleLeftClick(args, core);
             }
         }
 
-        private void HandleLeftClick(MouseEventArgs args, Redactor redactor)
+        private void HandleLeftClick(MouseEventArgs args, RedactorCore core)
         {
             switch (args.Type)
             {
                 case (ClickType.Down):
                     {
-                        OnLeftMouseDown(args, redactor);
+                        OnLeftMouseDown(args, core);
                         break;
                     }
                 case (ClickType.Up):
                     {
-                        OnLeftMouseUp(args, redactor);
+                        OnLeftMouseUp(args, core);
                         break;
                     }
                 case (ClickType.Hold):
                     {
-                        OnLeftMouseMove(args, redactor);
+                        OnLeftMouseMove(args, core);
                         break;
                     }
             }
         }
 
-        private void HandleRightClick(MouseEventArgs args, Redactor redactor) 
+        private void HandleRightClick(MouseEventArgs args, RedactorCore core) 
         {
             if (args.Type == ClickType.Down)
             {
-                var figure = selectOption.GetFigureByTouch(redactor.Figures, args.Touch);
+                var figure = selectOption.GetFigureByTouch(core.Figures, args.Touch);
                 manipulator.AttachTo(figure);
             }
         }
 
-        private void OnLeftMouseDown(MouseEventArgs args, Redactor redactor) 
+        private void OnLeftMouseDown(MouseEventArgs args, RedactorCore core) 
         {
             manipulator.HandleTouch(args.Touch);
 
@@ -82,12 +82,12 @@ namespace ApiShell
             isMouseDown = true;
         }
 
-        private void OnLeftMouseUp(MouseEventArgs args, Redactor redactor)
+        private void OnLeftMouseUp(MouseEventArgs args, RedactorCore core)
         {
             isMouseDown = false;
         }
 
-        private void OnLeftMouseMove(MouseEventArgs args, Redactor redactor)
+        private void OnLeftMouseMove(MouseEventArgs args, RedactorCore core)
         {
             if (isMouseDown) 
             {
@@ -101,7 +101,7 @@ namespace ApiShell
         }
 
 
-        public void Handle(KeyEventArgs args, Redactor redactor)
+        public void Handle(KeyEventArgs args, RedactorCore core)
         {
             if (args.Type == ClickType.Down)
             {
@@ -113,44 +113,48 @@ namespace ApiShell
             }
         }
 
-        public void Handle(IDrawerAdapter args, Redactor redactor)
+        public void Handle(IDrawerAdapter args, RedactorCore core)
         {
-            defaultDraw.Handle(args, redactor);
+            defaultDraw.Handle(args, core);
             manipulator.DrawWith(args);
         }
         
-        public void Handle(CompositeEventArgs args, Redactor redactor)
+        public void Handle(CompositeEventArgs args, RedactorCore core)
         {
             if (manipulator.AttachedFigure() is IComposite<IFigure> composite)
             {
-                HandleCompositeEvent(composite, args, redactor);
+                HandleCompositeEvent(composite, args, core);
             }
             else throw new InvalidCastException("You are truing to group not complex figure!");
         }
 
-        private void HandleCompositeEvent(IComposite<IFigure> composite, CompositeEventArgs args, Redactor redactor)
+        private void HandleCompositeEvent(IComposite<IFigure> composite, CompositeEventArgs args, RedactorCore core)
         {
             switch (args.Type)
             {
                 case (CompositeEventArgs.EventType.Group):
                     {
-                        redactor.History.ExecuteCommand(
-                                new GroupCommand(redactor.Figures, composite));
+                        core.History.ExecuteCommand(
+                                new GroupCommand(core.Figures, composite));
                         break;
                     }
                 case (CompositeEventArgs.EventType.Ungroup):
                     {
-                        redactor.History.ExecuteCommand(
-                                new UngroupCommand(redactor.Figures, composite));
+                        core.History.ExecuteCommand(
+                                new UngroupCommand(core.Figures, composite));
                         break;
                     }
             }
         }
 
-        void IStateHandler.Handle(object args, Redactor redactor)
+        void IStateHandler.Handle(object args, Redactor core)
         {
             throw new NotImplementedException();
         }
+    }
 
+    internal class CompositeSaver : IStateHandler<CompositeEventArgs> 
+    {
+    
     }
 }

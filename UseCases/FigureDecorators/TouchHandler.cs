@@ -33,6 +33,7 @@ namespace UseCases
         public void Draw(IDrawerAdapter adapter, Snapshot figureSnapshot)
         {
             var handlerSnapshot = handler.GetHandlerSnapshotRelativeTo(figureSnapshot);
+
             adapter.SetColor(color);
             adapter.DrawBoundRectngle(handlerSnapshot.Location, handlerSnapshot.Size);
         }

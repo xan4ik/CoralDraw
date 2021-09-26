@@ -76,7 +76,7 @@ namespace CoralDraw_WinForms
             // 
             // colorButton
             // 
-            this.colorButton.Location = new System.Drawing.Point(171, 45);
+            this.colorButton.Location = new System.Drawing.Point(170, 48);
             this.colorButton.Name = "colorButton";
             this.colorButton.Size = new System.Drawing.Size(123, 29);
             this.colorButton.TabIndex = 3;
@@ -86,7 +86,7 @@ namespace CoralDraw_WinForms
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(300, 12);
+            this.button1.Location = new System.Drawing.Point(300, 13);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(123, 29);
             this.button1.TabIndex = 4;
@@ -96,7 +96,7 @@ namespace CoralDraw_WinForms
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(300, 47);
+            this.button2.Location = new System.Drawing.Point(300, 48);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(123, 29);
             this.button2.TabIndex = 5;

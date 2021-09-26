@@ -24,7 +24,6 @@ namespace CoralDraw_WinForms
             eventConverter = new EventArgumentsConverter();
             converter = new SystemDrawingToCoreConverter();
             redactor = new Redactor();
-            //AllocConsole();
         }
 
         private void OnMouseDown(object sender, System.Windows.Forms.MouseEventArgs e) 
@@ -140,9 +139,5 @@ namespace CoralDraw_WinForms
                 MessageBox.Show(exc.Message);
             }
         }
-
-        //[DllImport("kernel32.dll", SetLastError = true)]
-        //[return: MarshalAs(UnmanagedType.Bool)]
-        //static extern bool AllocConsole();
     }
 }

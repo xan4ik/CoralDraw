@@ -2,6 +2,6 @@
 {
     internal interface IStateHandler<T> : IStateHandler
     {
-        void Handle(T args, Redactor redactor);
+        void Handle(T args, RedactorCore core);
     }
 }

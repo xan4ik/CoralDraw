@@ -23,29 +23,29 @@ namespace ApiShell
             figureFactory = new FigureFactory(new StaticInitFigureFactory());
         }
 
-        public void Handle(Color args, Redactor redactor)
+        public void Handle(Color args, RedactorCore core)
         {
             this.color = args;
         }
 
-        public void Handle(MouseEventArgs args, Redactor redactor)
+        public void Handle(MouseEventArgs args, RedactorCore core)
         {
             switch (args.Type)
             {
                 case (ClickType.Down):
                     {
-                        OnMouseDown(args, redactor);
+                        OnMouseDown(args, core);
                         break;
                     }
                 case ClickType.Up:
                     {
-                        OnMouseUp(args, redactor);
+                        OnMouseUp(args, core);
                         break;
                     }
             }
         }
 
-        public void Handle(ChangeCreatorEventArgs args, Redactor redactor)
+        public void Handle(ChangeCreatorEventArgs args, RedactorCore core)
         {
             if (args.IsFigureFactory)
             {
@@ -57,16 +57,16 @@ namespace ApiShell
             }
         }
 
-        private void OnMouseDown(MouseEventArgs args, Redactor redactor)
+        private void OnMouseDown(MouseEventArgs args, RedactorCore core)
         {
             lastTouch = args.Touch;
         }
 
-        private void OnMouseUp(MouseEventArgs args, Redactor redactor)
+        private void OnMouseUp(MouseEventArgs args, RedactorCore core)
         {
             var figure = CreateFigure(args.Touch);
-            redactor.History.ExecuteCommand(
-                    new FigureCreateCommand(redactor.Figures, figure)
+            core.History.ExecuteCommand(
+                    new FigureCreateCommand(core.Figures, figure)
                 );
         }
 
