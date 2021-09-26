@@ -1,6 +1,6 @@
 ﻿namespace Core
 {
-    public class Ellipse : Figure
+    public class Ellipse : Shape
     {
         public Ellipse(IDrawerFigureVisitor visitor, Snapshot snapshot) : base(snapshot, visitor)
         { }

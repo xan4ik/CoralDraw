@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ApiShell
 {
-    public class FigureCreateCommand : ICommand
+    class FigureCreateCommand : ICommand
     {
         private ICollection<IFigure> figures;
         private IFigure newFigure;

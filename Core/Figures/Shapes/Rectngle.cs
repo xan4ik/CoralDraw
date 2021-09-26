@@ -1,6 +1,6 @@
 ﻿namespace Core
 {
-    public class Rectngle : Figure
+    public class Rectngle : Shape
     {
         public Rectngle(IDrawerFigureVisitor visitor, Snapshot snapshot) : base(snapshot, visitor)
         { }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Core
 {
-    public class Composite : IFigure, IPrototype<IFigure>
+    public class Composite : IFigure, IPrototype<IFigure>, IComposite<IFigure>
     {
         private List<IFigure> figures;
         public Composite(params IFigure[] figures)
@@ -22,7 +22,7 @@ namespace Core
             return figures.Count == 0;
         }
 
-        public void AddFigure(IFigure figure) 
+        public void Add(IFigure figure) 
         {
             if (NotContains(figure))
             {
@@ -36,7 +36,7 @@ namespace Core
             return !figures.Contains(figure);
         }
 
-        public void RemoveFigure(IFigure figure) 
+        public void Remove(IFigure figure) 
         {
             if (Contains(figure))
             {
@@ -50,6 +50,10 @@ namespace Core
             return figures.Contains(figure);
         }
 
+        public IEnumerable<IFigure> EnumerateFigures()
+        {
+            return figures;
+        }
 
         public void Move(float deltaX, float deltaY)
         {
@@ -104,7 +108,7 @@ namespace Core
             foreach (var figure in figures)
             {
                 var clone = CreateCloneOf(figure);
-                composite.AddFigure(clone);
+                composite.Add(clone);
             }
             return composite;
         }
@@ -117,5 +121,6 @@ namespace Core
             }
             else throw new CloneCreateException(figure.GetType(), typeof(IFigure));
         }
+
     }
 }

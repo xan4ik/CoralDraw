@@ -34,6 +34,11 @@ namespace UseCases
             attachedFigure = DummyFigure.GetInstance();
         }
 
+        public IFigure AttachedFigure() 
+        {
+            return attachedFigure;
+        }
+
         public void AttachTo(IFigure figure)
         {
             attachedFigure = figure;

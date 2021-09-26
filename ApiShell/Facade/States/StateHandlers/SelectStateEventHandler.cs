@@ -8,7 +8,8 @@ namespace ApiShell
     internal class SelectStateEventHandler :
         IStateHandler<MouseEventArgs>,
         IStateHandler<KeyEventArgs>,
-        IStateHandler<IDrawerAdapter>
+        IStateHandler<IDrawerAdapter>,
+        IStateHandler<CompositeEventArgs>
     {
         private Dictionary<string, ISelectOption> options;
         private DefaultDrawEventHadler defaultDraw;
@@ -76,6 +77,7 @@ namespace ApiShell
         private void OnLeftMouseDown(MouseEventArgs args, Redactor redactor) 
         {
             manipulator.HandleTouch(args.Touch);
+
             lastTouch = args.Touch;
             isMouseDown = true;
         }
@@ -116,10 +118,39 @@ namespace ApiShell
             defaultDraw.Handle(args, redactor);
             manipulator.DrawWith(args);
         }
+        
+        public void Handle(CompositeEventArgs args, Redactor redactor)
+        {
+            if (manipulator.AttachedFigure() is IComposite<IFigure> composite)
+            {
+                HandleCompositeEvent(composite, args, redactor);
+            }
+            else throw new InvalidCastException("You are truing to group not complex figure!");
+        }
+
+        private void HandleCompositeEvent(IComposite<IFigure> composite, CompositeEventArgs args, Redactor redactor)
+        {
+            switch (args.Type)
+            {
+                case (CompositeEventArgs.EventType.Group):
+                    {
+                        redactor.History.ExecuteCommand(
+                                new GroupCommand(redactor.Figures, composite));
+                        break;
+                    }
+                case (CompositeEventArgs.EventType.Ungroup):
+                    {
+                        redactor.History.ExecuteCommand(
+                                new UngroupCommand(redactor.Figures, composite));
+                        break;
+                    }
+            }
+        }
 
         void IStateHandler.Handle(object args, Redactor redactor)
         {
             throw new NotImplementedException();
         }
+
     }
 }

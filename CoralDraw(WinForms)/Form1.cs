@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using ApiShell;
 using Core;
@@ -25,7 +24,7 @@ namespace CoralDraw_WinForms
             eventConverter = new EventArgumentsConverter();
             converter = new SystemDrawingToCoreConverter();
             redactor = new Redactor();
-            AllocConsole();
+            //AllocConsole();
         }
 
         private void OnMouseDown(object sender, System.Windows.Forms.MouseEventArgs e) 
@@ -113,6 +112,23 @@ namespace CoralDraw_WinForms
             }
         }
 
+        private void OnGroup(object sender, EventArgs e) 
+        {
+            InvokeMethod(
+                redactor.InvokeHandlerFor,
+                new CompositeEventArgs() { Type = CompositeEventArgs.EventType.Group}
+            );
+        }
+
+        private void OnUngroup(object sender, EventArgs e) 
+        {
+            InvokeMethod(
+                redactor.InvokeHandlerFor,
+                new CompositeEventArgs() { Type = CompositeEventArgs.EventType.Ungroup }
+            );
+        }
+
+
         private void InvokeMethod<T>(Action<T> action, T param) 
         {
 
@@ -126,8 +142,8 @@ namespace CoralDraw_WinForms
             }
         }
 
-        [DllImport("kernel32.dll", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool AllocConsole();
+        //[DllImport("kernel32.dll", SetLastError = true)]
+        //[return: MarshalAs(UnmanagedType.Bool)]
+        //static extern bool AllocConsole();
     }
 }

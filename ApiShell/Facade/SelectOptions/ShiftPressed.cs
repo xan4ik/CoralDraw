@@ -32,9 +32,9 @@ namespace ApiShell
         {
             if (composite.NotContains(figure))
             {
-                composite.AddFigure(figure);
+                composite.Add(figure);
             }
-            else  composite.RemoveFigure(figure); 
+            else  composite.Remove(figure); 
         }
 
         private IFigure GetResult()

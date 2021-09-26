@@ -1,10 +1,10 @@
 ﻿namespace Core
 {
-    public abstract class Figure : IFigure, IPrototype<IFigure>
+    public abstract class Shape : IFigure, IPrototype<IFigure>
     {
         private IDrawerFigureVisitor visitor;
         private Transform transform;
-        protected Figure(Snapshot snapshot, IDrawerFigureVisitor visitor)
+        protected Shape(Snapshot snapshot, IDrawerFigureVisitor visitor)
         {
             this.transform = new Transform(snapshot);
             this.visitor = visitor;

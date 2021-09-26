@@ -47,6 +47,7 @@ namespace CoralDraw_WinForms
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(151, 28);
             this.comboBox1.TabIndex = 0;
+            this.comboBox1.SelectedIndex = 0;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.OnChangeFigureFactory);
             // 
             // comboBox2
@@ -60,6 +61,7 @@ namespace CoralDraw_WinForms
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(151, 28);
             this.comboBox2.TabIndex = 1;
+            this.comboBox2.SelectedIndex = 0;
             this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.OnChangeDrawerFactory);
             // 
             // button1
