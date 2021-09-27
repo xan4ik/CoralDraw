@@ -15,7 +15,7 @@ namespace ApiShell
         }
 
         public string StateName { get; private set; }
-        
+
         public bool ContainsHandler<T>() where T : IStateHandler
         {
             foreach (var handler in handlers)
@@ -26,6 +26,14 @@ namespace ApiShell
                 }
             }
             return false;
+        }
+
+        public void Init(RedactorCore core) 
+        {
+            foreach (var handler in handlers) 
+            {
+                handler.Handle(core);
+            }
         }
 
         public T GetHandler<T>() where T: IStateHandler

@@ -8,8 +8,7 @@ namespace ApiShell
     internal class SelectStateEventHandler :
         IStateHandler<MouseEventArgs>,
         IStateHandler<KeyEventArgs>,
-        IStateHandler<IDrawerAdapter>,
-        IStateHandler<CompositeEventArgs>
+        IStateHandler<IDrawerAdapter>
     {
         private Dictionary<string, ISelectOption> options;
         private DefaultDrawEventHadler defaultDraw;
@@ -71,6 +70,7 @@ namespace ApiShell
             {
                 var figure = selectOption.GetFigureByTouch(core.Figures, args.Touch);
                 manipulator.AttachTo(figure);
+                core.EventBus.Publish<IFigure>(figure);
             }
         }
 
@@ -100,7 +100,6 @@ namespace ApiShell
             }
         }
 
-
         public void Handle(KeyEventArgs args, RedactorCore core)
         {
             if (args.Type == ClickType.Down)
@@ -119,9 +118,29 @@ namespace ApiShell
             manipulator.DrawWith(args);
         }
         
+        void IStateHandler.Handle(RedactorCore core)
+        {
+            core.EventBus.CreateEventOf<IFigure>();
+        }
+    }
+
+    internal class CompositeSaver : IStateHandler<CompositeEventArgs> 
+    {
+        private IFigure lastSelectedFigure;
+
+        public CompositeSaver()
+        {
+            lastSelectedFigure = DummyFigure.GetInstance();
+        }
+
+        public void OnSelectedFigureUpdate(IFigure figure) 
+        {
+            lastSelectedFigure = figure;
+        }
+
         public void Handle(CompositeEventArgs args, RedactorCore core)
         {
-            if (manipulator.AttachedFigure() is IComposite<IFigure> composite)
+            if (lastSelectedFigure is IComposite<IFigure> composite)
             {
                 HandleCompositeEvent(composite, args, core);
             }
@@ -147,14 +166,9 @@ namespace ApiShell
             }
         }
 
-        void IStateHandler.Handle(object args, Redactor core)
+        void IStateHandler.Handle(RedactorCore core)
         {
-            throw new NotImplementedException();
+            core.EventBus.SubscribeToPublisher<IFigure>(OnSelectedFigureUpdate);
         }
-    }
-
-    internal class CompositeSaver : IStateHandler<CompositeEventArgs> 
-    {
-    
     }
 }

@@ -17,8 +17,12 @@ namespace ApiShell
                 new DefaultDrawEventHadler()
              );
             lastActiveState = new State("Selection",
-                new SelectStateEventHandler()
+                new SelectStateEventHandler(),
+                new CompositeSaver()
             );
+
+            currentState.Init(core);
+            lastActiveState.Init(core);
         }
 
         public string ActiveStateName() 

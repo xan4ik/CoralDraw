@@ -18,6 +18,11 @@ namespace ApiShell
         }
 
         private List<object> events;
+        public StateEventBus()
+        {
+            events = new List<object>();
+        }
+
         public void CreateEventOf<T>() 
         {
             if (ContainsEvent<T>())

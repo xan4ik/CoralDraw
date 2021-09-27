@@ -93,10 +93,9 @@ namespace ApiShell
             return new Snapshot(location, size);
         }
         
-        void IStateHandler.Handle(object args, Redactor redactor)
+        void IStateHandler.Handle(RedactorCore redactor)
         {
-            throw new NotImplementedException();
+            //TODO: eventBus
         }
-
     }
 }

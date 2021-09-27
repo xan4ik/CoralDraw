@@ -2,6 +2,6 @@
 {
     internal interface IStateHandler 
     {
-        void Handle(object args, Redactor redactor);
+        void Handle(RedactorCore core); // Use it for initialization
     }
 }

@@ -13,13 +13,9 @@ namespace ApiShell
             }
         }
 
-        public void Handle(object args, Redactor redactor)
+        public void Handle(RedactorCore core)
         {
-            if (args is IDrawerAdapter adapter) 
-            {
-                Handle(adapter, redactor);
-            }
-            else throw new InvalidCastException("Can't cast to IDrawerAdapter");
+            return;
         }
     }
 }
