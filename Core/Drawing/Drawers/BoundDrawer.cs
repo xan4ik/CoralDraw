@@ -5,6 +5,11 @@
         public BoundDrawer(Color color) : base(color)
         { }
 
+        public override IDrawerFigureVisitor CreateClone()
+        {
+            return new BoundDrawer(GetColor());
+        }
+
         protected override void OnDrawEllipse(IDrawerAdapter adapter, Snapshot figureSnapshot)
         {
             adapter.DrawBoundEllipse(figureSnapshot.Location, figureSnapshot.Size);

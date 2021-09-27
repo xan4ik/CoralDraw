@@ -10,7 +10,7 @@
 
         protected override IFigure OnCreateClone(IDrawerFigureVisitor clone)
         {
-            return new Rectngle(clone);
+            return new Rectngle(clone, GetFigureSnapshot());
         }
 
         protected override void OnDraw(IDrawerAdapter adapter, IDrawerFigureVisitor visitor)

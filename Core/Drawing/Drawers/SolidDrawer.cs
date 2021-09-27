@@ -5,6 +5,11 @@
         public SolidDrawer(Color color) : base(color)
         { }
 
+        public override IDrawerFigureVisitor CreateClone()
+        {
+            return new SolidDrawer(GetColor());
+        }
+
         protected override void OnDrawEllipse(IDrawerAdapter adapter, Snapshot figureSnapshot)
         {
             adapter.DrawSolidEllipse(figureSnapshot.Location, figureSnapshot.Size);

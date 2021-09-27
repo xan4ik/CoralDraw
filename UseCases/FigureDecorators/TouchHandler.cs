@@ -27,7 +27,7 @@ namespace UseCases
         public bool IsTouch(Snapshot figureSnapshot, Point touch)
         {
             var handlerSnapshot = handler.GetHandlerSnapshotRelativeTo(figureSnapshot);
-            return handlerSnapshot.ContainsPoint(touch);
+            return Snapshot.SnapshotContainsPoint(handlerSnapshot, touch);
         }
 
         public void Draw(IDrawerAdapter adapter, Snapshot figureSnapshot)

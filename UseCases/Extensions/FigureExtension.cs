@@ -6,7 +6,7 @@ namespace UseCases
     {
         public static bool IsTouched(this IFigure figure, Point touch) 
         {
-            return figure.GetFigureSnapshot().ContainsPoint(touch);
+            return Snapshot.SnapshotContainsPoint(figure.GetFigureSnapshot(), touch);
         }
 
         public static bool IsDummy(this IFigure figure) 

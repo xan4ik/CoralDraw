@@ -13,7 +13,12 @@ namespace ApiShell
             }
         }
 
-        public void Handle(RedactorCore core)
+        void IStateHandler.Init(RedactorCore core)
+        {
+            return;
+        }
+
+        void IStateHandler.LateInit(RedactorCore core)
         {
             return;
         }

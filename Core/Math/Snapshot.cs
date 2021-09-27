@@ -11,20 +11,35 @@
             Size = size;
         }
 
-        public bool ContainsPoint(Point point) 
+        public static bool SnapshotContainsPoint(Snapshot snapshot, Point point) 
         {
-            return BetweenXRange(point.X) &&
-                   BetweenYRange(point.Y);
+            return BetweenXRange(point.X, snapshot) &&
+                   BetweenYRange(point.Y, snapshot);
         }
 
-        private bool BetweenXRange(float x) 
+        private static bool BetweenXRange(float x, Snapshot snapshot)
         {
-            return x >= Location.X && x <= Location.X + Size.Width;
+            return x >= snapshot.Location.X && x <= snapshot.Location.X + snapshot.Size.Width;
         }
 
-        private bool BetweenYRange(float y) 
+        private static bool BetweenYRange(float y, Snapshot snapshot)
         {
-            return y >= Location.Y && y <= Location.Y + Size.Height;
+            return y >= snapshot.Location.Y && y <= snapshot.Location.Y + snapshot.Size.Height;
         }
+
+        public static SnapshotOffset OffsetFromTo(Snapshot from,Snapshot to) 
+        {
+            return new SnapshotOffset()
+            {
+                LocationOffset = Point.OffsetFromTo(from.Location, to.Location),
+                SizeOffset = Size.OffsetFromTo(from.Size, to.Size)
+            };
+        }
+    }
+
+    public struct SnapshotOffset 
+    {
+        public Point LocationOffset;
+        public Point SizeOffset;
     }
 }

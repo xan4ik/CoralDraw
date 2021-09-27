@@ -13,22 +13,27 @@ namespace ApiShell
         {
             core = new RedactorCore();
             currentState = new State("Creation",
-                new CreateStateEventHandler(),
+                new CreateEventHandler(),
                 new DefaultDrawEventHadler()
              );
             lastActiveState = new State("Selection",
-                new SelectStateEventHandler(),
-                new CompositeSaver()
+                new SelectEventHandler(),
+                new CompositeSaver(),
+                new PrototypeCreatorHandler()
             );
 
             currentState.Init(core);
             lastActiveState.Init(core);
+
+            currentState.LateInit(core);
+            lastActiveState.LateInit(core);
         }
 
         public string ActiveStateName() 
         {
             return currentState.StateName;
         }
+
         public void UndoLastAction() 
         {
             core.History.UndoLastCommand();

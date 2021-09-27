@@ -127,6 +127,18 @@ namespace CoralDraw_WinForms
             );
         }
 
+        private static int savedID = 0;
+        private void OnFigureSave(object sender, EventArgs e) 
+        {
+            var creatorName = $"saved{savedID++}";
+            
+            InvokeMethod(
+                redactor.InvokeHandlerFor,
+                creatorName  
+            );
+            comboBox1.Items.Add(creatorName);
+        }
+
 
         private void InvokeMethod<T>(Action<T> action, T param) 
         {

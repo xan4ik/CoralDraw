@@ -17,9 +17,15 @@ namespace UseCases
         public IFigure CreateFigure(IDrawerFigureVisitor visitor, Snapshot snapshot)
         {
             var clone = prototype.CreateClone();
-                clone.Move(snapshot.Location.X, snapshot.Location.Y);
-                clone.Resize(snapshot.Size.Width, snapshot.Size.Height);
+            ApplySnapshotToClone(clone, snapshot);
             return clone;
+        }
+
+        private void ApplySnapshotToClone(IFigure clone, Snapshot snapshot) 
+        {
+            var offset = Snapshot.OffsetFromTo(clone.GetFigureSnapshot(), snapshot);
+            clone.Move(offset.LocationOffset.X, offset.LocationOffset.Y);
+            clone.Resize(offset.SizeOffset.X, offset.SizeOffset.Y);
         }
     }
 }

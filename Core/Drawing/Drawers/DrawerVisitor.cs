@@ -1,6 +1,6 @@
 ﻿namespace Core
 {
-    public abstract class DrawerVisitor : IDrawerFigureVisitor
+    public abstract class DrawerVisitor : IDrawerFigureVisitor, IPrototype<IDrawerFigureVisitor>
     {
         private Color color = default;
 
@@ -13,6 +13,13 @@
         {
             this.color = color;
         }
+
+        public Color GetColor() 
+        {
+            return color;
+        }
+
+        public abstract IDrawerFigureVisitor CreateClone();
 
         public void Draw(IDrawerAdapter adapter, Ellipse ellipse)
         {
@@ -29,5 +36,6 @@
         }
 
         protected abstract void OnDrawRectangle(IDrawerAdapter adapter, Snapshot figureSnapshot);
+
     }
 }

@@ -32,7 +32,15 @@ namespace ApiShell
         {
             foreach (var handler in handlers) 
             {
-                handler.Handle(core);
+                handler.Init(core);
+            }
+        }
+
+        public void LateInit(RedactorCore core) 
+        {
+            foreach (var handler in handlers)
+            {
+                handler.LateInit(core);
             }
         }
 

@@ -4,7 +4,7 @@ using UseCases;
 
 namespace ApiShell
 {
-    internal class CreateStateEventHandler :
+    internal class CreateEventHandler :
         IStateHandler<ChangeCreatorEventArgs>,
         IStateHandler<MouseEventArgs>,
         IStateHandler<Color>
@@ -17,7 +17,7 @@ namespace ApiShell
         private Color color;
         private Point lastTouch;
 
-        public CreateStateEventHandler()
+        public CreateEventHandler()
         {
             drawerFactory = new DrawerVisitorFactory(new StaticInitDrawerVisitorFactory());
             figureFactory = new FigureFactory(new StaticInitFigureFactory());
@@ -93,9 +93,20 @@ namespace ApiShell
             return new Snapshot(location, size);
         }
         
-        void IStateHandler.Handle(RedactorCore redactor)
+        private void OnCreatorEventHandler(CreatorEventArgs args) 
         {
-            //TODO: eventBus
+            figureFactory.AddCreator(args.Key, args.Creator);
+        }
+
+
+        void IStateHandler.LateInit(RedactorCore core)
+        {
+            core.EventBus.SubscribeToPublisher<CreatorEventArgs>(OnCreatorEventHandler);
+        }
+
+        void IStateHandler.Init(RedactorCore redactor)
+        {
+            return;
         }
     }
 }

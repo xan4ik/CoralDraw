@@ -10,5 +10,14 @@
             X = x;
             Y = y;
         }
+
+        public static Point OffsetFromTo(Point from, Point to) 
+        {
+            return new Point()
+            {
+                X = to.X - from.X,
+                Y = to.Y - from.Y
+            };
+        }
     }
 }

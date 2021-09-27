@@ -34,8 +34,9 @@ namespace CoralDraw_WinForms
             this.stateButton = new System.Windows.Forms.Button();
             this.colorButton = new System.Windows.Forms.Button();
             this.colorDialog = new System.Windows.Forms.ColorDialog();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.groupButton = new System.Windows.Forms.Button();
+            this.ungroupButton = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // comboBox1
@@ -86,31 +87,42 @@ namespace CoralDraw_WinForms
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(300, 13);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(123, 29);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Group";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.OnGroup);
+            this.groupButton.Location = new System.Drawing.Point(300, 13);
+            this.groupButton.Name = "button1";
+            this.groupButton.Size = new System.Drawing.Size(123, 29);
+            this.groupButton.TabIndex = 4;
+            this.groupButton.Text = "Group";
+            this.groupButton.UseVisualStyleBackColor = true;
+            this.groupButton.Click += new System.EventHandler(this.OnGroup);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(300, 48);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(123, 29);
-            this.button2.TabIndex = 5;
-            this.button2.Text = "Ungroup";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.OnUngroup);
+            this.ungroupButton.Location = new System.Drawing.Point(300, 48);
+            this.ungroupButton.Name = "button2";
+            this.ungroupButton.Size = new System.Drawing.Size(123, 29);
+            this.ungroupButton.TabIndex = 5;
+            this.ungroupButton.Text = "Ungroup";
+            this.ungroupButton.UseVisualStyleBackColor = true;
+            this.ungroupButton.Click += new System.EventHandler(this.OnUngroup);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(429, 13);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(123, 29);
+            this.button3.TabIndex = 6;
+            this.button3.Text = "Save";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.OnFigureSave);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1338, 635);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.ungroupButton);
+            this.Controls.Add(this.groupButton);
             this.Controls.Add(this.colorButton);
             this.Controls.Add(this.stateButton);
             this.Controls.Add(this.comboBox2);
@@ -134,8 +146,9 @@ namespace CoralDraw_WinForms
         private System.Windows.Forms.Button stateButton;
         private System.Windows.Forms.Button colorButton;
         private System.Windows.Forms.ColorDialog colorDialog;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button groupButton;
+        private System.Windows.Forms.Button ungroupButton;
+        private System.Windows.Forms.Button button3;
     }
 }
 

@@ -44,5 +44,14 @@
                 else throw new ArgumentLessThanZero($"Height can't be less zero. value:{value}", value);
             }
         }
+
+        public static Point OffsetFromTo(Size from, Size to) 
+        {
+            return new Point()
+            {
+                X = to.Width - from.width,
+                Y = to.Height - from.Height
+            };
+        }
     }
 }
