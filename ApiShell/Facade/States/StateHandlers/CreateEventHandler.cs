@@ -95,7 +95,9 @@ namespace ApiShell
         
         private void OnCreatorEventHandler(CreatorEventArgs args) 
         {
-            figureFactory.AddCreator(args.Key, args.Creator);
+            args.Core.History.ExecuteCommand(
+                new CreatePrototypeFactory(figureFactory, args.Key, args.Creator)
+            );
         }
 
 

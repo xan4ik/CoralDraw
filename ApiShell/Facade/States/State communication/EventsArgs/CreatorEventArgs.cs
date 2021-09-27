@@ -8,6 +8,7 @@ namespace ApiShell
     class CreatorEventArgs
     {
         public IFigureCreator Creator;
+        public RedactorCore Core;
         public string Key;
     }
 }

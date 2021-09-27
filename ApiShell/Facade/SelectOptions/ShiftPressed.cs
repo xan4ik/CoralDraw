@@ -34,7 +34,7 @@ namespace ApiShell
             {
                 composite.Add(figure);
             }
-            else  composite.Remove(figure); 
+            else composite.Remove(figure); 
         }
 
         private IFigure GetResult()

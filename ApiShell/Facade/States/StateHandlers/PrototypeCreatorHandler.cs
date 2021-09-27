@@ -34,6 +34,7 @@ namespace ApiShell
                 var eventArgs = new CreatorEventArgs() 
                 {
                     Key = args,
+                    Core = core,
                     Creator = new PrototypeCreator(prototype)
                 };
                 core.EventBus.Publish<CreatorEventArgs>(eventArgs);

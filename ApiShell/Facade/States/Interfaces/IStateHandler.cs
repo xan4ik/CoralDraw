@@ -2,7 +2,7 @@
 {
     internal interface IStateHandler 
     {
-        void Init(RedactorCore core); // Use it for initialization
-        void LateInit(RedactorCore core); // Use it for initialization
+        void Init(RedactorCore core); 
+        void LateInit(RedactorCore core); 
     }
 }

@@ -20,7 +20,7 @@ namespace ApiShell
         {
             if (lastFigure.IsDummy())
             {
-                lastFigure = option.GetFigureByTouch(figures, touch);
+                lastFigure = option.GetFigureByTouch(figures, touch); //find first touch figure
                 return lastFigure;
             }
             else
