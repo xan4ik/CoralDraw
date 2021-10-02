@@ -5,7 +5,7 @@ using UseCases;
 
 namespace ApiShell
 {
-    public class CtrlPressed : ISelectOption
+    public class CtrlPressed : ISelectOption, IPrototype<ISelectOption>
     {
         private DefaultOption option;
         private IFigure lastFigure;
@@ -60,6 +60,9 @@ namespace ApiShell
             return DummyFigure.GetInstance();
         }
 
-
+        public ISelectOption CreateClone()
+        {
+            return this;
+        }
     }
 }

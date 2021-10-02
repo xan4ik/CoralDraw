@@ -74,7 +74,6 @@ namespace ApiShell
         {
             var snapshot = CreateFigureSnapshot(lastTouch, touch);
             var drawer = drawerCreator.CreateDrawer(color);
-
             return  figureCreator.CreateFigure(drawer, snapshot);
         }
 

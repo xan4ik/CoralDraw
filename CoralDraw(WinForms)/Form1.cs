@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 using ApiShell;
 using Core;
@@ -57,6 +58,7 @@ namespace CoralDraw_WinForms
                 redactor.InvokeHandlerFor, 
                 eventConverter.ConvertFrom(e, ClickType.Up)
             );
+            Debug.WriteLine("up");
         }
 
         private void OnKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
@@ -65,14 +67,15 @@ namespace CoralDraw_WinForms
                 redactor.InvokeHandlerFor, 
                 eventConverter.ConvertFrom(e, ClickType.Down)
             );
+            Debug.WriteLine("down");
         }
 
         private void OnRefesh() 
         {
             Refresh();
             InvokeMethod(
-                    redactor.InvokeHandlerFor<IDrawerAdapter>, 
-                    adapter
+                redactor.InvokeHandlerFor<IDrawerAdapter>, 
+                adapter
             );
         }
 

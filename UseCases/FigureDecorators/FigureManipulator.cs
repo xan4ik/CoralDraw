@@ -1,4 +1,5 @@
 ﻿using Core;
+using System;
 using System.Collections.Generic;
 
 namespace UseCases
@@ -71,6 +72,11 @@ namespace UseCases
             activeHandler = FindActiveHanderFor(figure, touch);
         }
 
+        public void Drag(float deltaX, float deltaY)
+        {
+            handlers[activeHandler].Handle(attachedFigure, deltaX, deltaY);        
+        }
+
         private Corner FindActiveHanderFor(Snapshot figureSnapshot, Point touch) 
         {
             foreach (var handler in handlers.Values)
@@ -81,28 +87,29 @@ namespace UseCases
                 }
             }
             return Corner.None;
-        }
-            
-        public void Drag(float deltaX, float deltaY)
-        {
-            handlers[activeHandler].Handle(attachedFigure, deltaX, deltaY);
-        }
+        }         
 
         public void DrawWith(IDrawerAdapter adapter)
         {
             if (attachedFigure.IsNotDummy())
             {
-                attachedFigure.DrawWith(adapter);
-                DrawHandlers(adapter);
+                var baseSnapshot = attachedFigure.GetFigureSnapshot();
+                DrawerMainpulatorBox(adapter, baseSnapshot);   
+                DrawHandlers(adapter, baseSnapshot);
             }
         }
 
-        private void DrawHandlers(IDrawerAdapter adapter)
+        private void DrawerMainpulatorBox(IDrawerAdapter adapter, Snapshot baseSnapshot)
         {
-            var figureSnapshot = attachedFigure.GetFigureSnapshot();
+            adapter.SetColor(default);
+            adapter.DrawBoundRectngle(baseSnapshot.Location, baseSnapshot.Size);
+        }
+
+        private void DrawHandlers(IDrawerAdapter adapter, Snapshot baseSnapshot)
+        {
             foreach (var handler in handlers.Values)
             {
-                handler.Draw(adapter, figureSnapshot);
+                handler.Draw(adapter, baseSnapshot);
             }
         }
     }

@@ -5,7 +5,7 @@ using UseCases;
 
 namespace ApiShell
 {
-    public class ShiftPressed : ISelectOption
+    public class ShiftPressed : ISelectOption, IPrototype<ISelectOption>
     {
         private Composite composite;
         private DefaultOption option; 
@@ -50,6 +50,11 @@ namespace ApiShell
         {
             //TODO: Maybe clear() ?
             composite = new Composite();
+        }
+
+        public ISelectOption CreateClone()
+        {
+            return new ShiftPressed();
         }
     }
 }

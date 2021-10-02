@@ -20,14 +20,14 @@ namespace ApiShell
 
         public void Handle(CompositeEventArgs args, RedactorCore core)
         {
-            if (lastSelectedFigure is IComposite<IFigure> composite)
+            if (lastSelectedFigure is ICompositeFigure composite)
             {
                 HandleCompositeEvent(composite, args, core);
             }
             else throw new InvalidCastException("You are truing to group not complex figure!");
         }
 
-        private void HandleCompositeEvent(IComposite<IFigure> composite, CompositeEventArgs args, RedactorCore core)
+        private void HandleCompositeEvent(ICompositeFigure composite, CompositeEventArgs args, RedactorCore core)
         {
             switch (args.Type)
             {

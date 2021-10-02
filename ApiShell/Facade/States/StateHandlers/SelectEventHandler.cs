@@ -1,5 +1,6 @@
 ﻿using Core;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UseCases;
 
 namespace ApiShell
@@ -9,7 +10,7 @@ namespace ApiShell
         IStateHandler<KeyEventArgs>,
         IStateHandler<IDrawerAdapter>
     {
-        private Dictionary<string, ISelectOption> options;
+        private Dictionary<string, IPrototype<ISelectOption>> options;
         private DefaultDrawEventHadler defaultDraw;
         private FigureManipulator manipulator;
         private ISelectOption selectOption;
@@ -18,7 +19,7 @@ namespace ApiShell
 
         public SelectEventHandler()
         {
-            options = new Dictionary<string, ISelectOption>()
+            options = new Dictionary<string, IPrototype<ISelectOption>>()
             {
                 {"shift", new ShiftPressed() },
                 {"ctrl", new CtrlPressed() }
@@ -103,7 +104,7 @@ namespace ApiShell
         {
             if (args.Type == ClickType.Down)
             {
-                selectOption = options[args.Key];
+                selectOption = options[args.Key].CreateClone();
             }
             else if (args.Type == ClickType.Up) 
             {

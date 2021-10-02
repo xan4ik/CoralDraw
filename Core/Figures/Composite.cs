@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Core
 {
-    public class Composite : IFigure, IPrototype<IFigure>, IComposite<IFigure>
+    public class Composite : IFigure, IPrototype<IFigure>, ICompositeFigure
     {
         private List<IFigure> figures;
         public Composite(params IFigure[] figures)
@@ -24,7 +24,7 @@ namespace Core
 
         public void Add(IFigure figure) 
         {
-            if (NotContains(figure))
+            if (NotContains(figure) && figure != this)
             {
                 figures.Add(figure);
             }
@@ -63,14 +63,54 @@ namespace Core
             }
         }
 
-        public void Resize(float deltaWigth, float deltaHeight)
+        public void Resize(float deltaWidth, float deltaHeight)
         {
+            var parent = GetFigureSnapshot();
+            var scaleFactor = CountScaleFactor(parent, deltaWidth, deltaHeight);
+
             foreach (var figure in figures)
             {
-                figure.Resize(deltaWigth, deltaHeight);
+                var chield = figure.GetFigureSnapshot();
+                var size = EvaluateSizeVector(chield, scaleFactor);
+                var pose = EveluateLocationVector(parent, chield, scaleFactor);               
+
+                figure.Resize(size.X, size.Y);
+                figure.Move(pose.X, pose.Y);
             }
+
         }
-        
+
+        private Point CountScaleFactor(Snapshot snapshot, float deltaWidth, float deltaHeight)
+        {
+            var scaledWidth = snapshot.Size.Width + deltaWidth;
+            var scaledHeight = snapshot.Size.Height + deltaHeight;
+
+            return new Point()
+            {
+                X = scaledWidth / snapshot.Size.Width,
+                Y = scaledHeight / snapshot.Size.Height,
+            };
+        }
+
+        private Point EvaluateSizeVector(Snapshot figure, Point scaleFactor) 
+        {
+            return new Point() 
+            {
+                 X = (figure.Size.Width * scaleFactor.X) - figure.Size.Width,
+                 Y = (figure.Size.Height * scaleFactor.Y) - figure.Size.Height,
+            };
+        }
+
+        private Point EveluateLocationVector(Snapshot parent, Snapshot chield, Point scaleFactor) 
+        {
+            var offset = Point.OffsetFromTo(parent.Location, chield.Location);
+            return new Point() 
+            {
+                X = offset.X * scaleFactor.X - offset.X,
+                Y = offset.Y * scaleFactor.Y - offset.Y
+            };
+        }
+
         public void DrawWith(IDrawerAdapter adapter)
         {
             foreach (var figure in figures) 

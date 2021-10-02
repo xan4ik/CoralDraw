@@ -4,13 +4,13 @@ using System.Text;
 
 namespace Core
 {
-    public interface IComposite<T> : IFigure
+    public interface ICompositeFigure : IFigure
     {
-        void Add(T element);
-        void Remove(T element);
-        bool Contains(T element);
-        bool NotContains(T element);
+        void Add(IFigure element);
+        void Remove(IFigure element);
+        bool Contains(IFigure element);
+        bool NotContains(IFigure element);
         bool IsEmpty();
-        IEnumerable<T> EnumerateFigures();
+        IEnumerable<IFigure> EnumerateFigures();
     }
 }

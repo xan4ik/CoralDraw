@@ -6,7 +6,7 @@ namespace UseCases
     {
         private IFigureTouchHandler handler;
         private Color color;
-        public TouchHandler(IFigureTouchHandler handler, Corner corner, Color color = default)
+        public TouchHandler(IFigureTouchHandler handler, Corner corner)
         {
             this.handler = handler;
             this.Corner = corner;

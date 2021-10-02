@@ -14,8 +14,7 @@ namespace ApiShell
     class UngroupCommand : ICommand
     {
         private GroupCommand groupCommand;
-
-        public UngroupCommand(ICollection<IFigure> figures, IComposite<IFigure> composite)
+        public UngroupCommand(ICollection<IFigure> figures, ICompositeFigure composite)
         {
             bool compositeNotExist = !figures.Contains(composite);
             if (compositeNotExist) // select option returns composite, but it doesn't save  in <Redactor> 

@@ -8,9 +8,9 @@ namespace ApiShell
     class GroupCommand : ICommand
     {
         private ICollection<IFigure> figures;
-        private IComposite<IFigure> composite;
+        private ICompositeFigure composite;
 
-        public GroupCommand(ICollection<IFigure> figures, IComposite<IFigure> composite)
+        public GroupCommand(ICollection<IFigure> figures, ICompositeFigure composite)
         {
             this.figures = figures;
             this.composite = composite;
