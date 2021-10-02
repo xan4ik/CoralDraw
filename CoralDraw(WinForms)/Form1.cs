@@ -12,6 +12,7 @@ namespace CoralDraw_WinForms
         private EventArgumentsConverter eventConverter;
         private GraphicsAdapter adapter;
         private Redactor redactor;
+        private bool isDown;
 
         public Form1()
         {
@@ -58,16 +59,19 @@ namespace CoralDraw_WinForms
                 redactor.InvokeHandlerFor, 
                 eventConverter.ConvertFrom(e, ClickType.Up)
             );
-            Debug.WriteLine("up");
+            isDown = false;
         }
 
         private void OnKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            InvokeMethod(
-                redactor.InvokeHandlerFor, 
-                eventConverter.ConvertFrom(e, ClickType.Down)
-            );
-            Debug.WriteLine("down");
+            if (!isDown)
+            {
+                InvokeMethod(
+                    redactor.InvokeHandlerFor,
+                    eventConverter.ConvertFrom(e, ClickType.Down)
+                ); 
+                isDown = true;
+            }
         }
 
         private void OnRefesh() 
