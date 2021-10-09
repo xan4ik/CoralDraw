@@ -48,7 +48,6 @@ namespace ApiShell
 
         private void CleanUpComposite()
         {
-            //TODO: Maybe clear() ?
             composite = new Composite();
         }
 

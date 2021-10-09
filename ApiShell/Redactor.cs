@@ -41,9 +41,7 @@ namespace ApiShell
         
         public void InvokeHandlerFor<T>(T args)
         {
-            currentState
-                .GetHandler<IStateHandler<T>>()
-                .Handle(args, core);
+            currentState.Handle(args, core);
         }
 
         public void SwapState()

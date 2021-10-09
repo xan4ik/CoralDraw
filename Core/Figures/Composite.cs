@@ -24,7 +24,7 @@ namespace Core
 
         public void Add(IFigure figure) 
         {
-            if (NotContains(figure) && figure != this)
+            if (NotContains(figure))
             {
                 figures.Add(figure);
             }
@@ -33,7 +33,7 @@ namespace Core
 
         public bool NotContains(IFigure figure)
         {
-            return !figures.Contains(figure);
+            return !figures.Contains(figure) && figure != this;
         }
 
         public void Remove(IFigure figure) 
@@ -47,7 +47,7 @@ namespace Core
 
         public bool Contains(IFigure figure) 
         {
-            return figures.Contains(figure);
+            return figures.Contains(figure) && figure == this;
         }
 
         public IEnumerable<IFigure> EnumerateFigures()
@@ -126,12 +126,16 @@ namespace Core
             var minY = snapshots.Min(snap => snap.Location.Y);
             var maxX = snapshots.Max(snap => snap.Location.X + snap.Size.Width);
             var maxY = snapshots.Max(snap => snap.Location.Y + snap.Size.Height);
-            var size = new Size(){
-                Width = Math.Abs(maxX - minX),
-                Height = Math.Abs(maxY - minY)};
-            var location = new Point(minX, minY);
 
-            return new Snapshot(location, size); 
+            return new Snapshot()
+            {
+                Size = new Size()
+                {
+                    Width = Math.Abs(maxX - minX),
+                    Height = Math.Abs(maxY - minY)
+                },
+                Location = new Point(minX, minY)
+            };
         }
 
         private IEnumerable<Snapshot> GetAllSnapshots() 

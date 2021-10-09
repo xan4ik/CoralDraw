@@ -44,7 +44,7 @@ namespace ApiShell
             }
         }
 
-        public T GetHandler<T>() where T: IStateHandler
+        private T GetHandler<T>() where T : IStateHandler
         {
             foreach (var handler in handlers)
             {
@@ -54,6 +54,12 @@ namespace ApiShell
                 }
             }
             throw new HandlerNotFoundException<T>();
+        }
+
+        public void Handle<T>(T args, RedactorCore core) 
+        {
+            var handler = GetHandler<IStateHandler<T>>();
+            handler.Handle(args, core);
         }
 
         public IEnumerable<T> GetHandlers<T>() where T : IStateHandler 

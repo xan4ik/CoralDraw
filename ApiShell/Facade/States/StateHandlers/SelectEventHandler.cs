@@ -91,12 +91,10 @@ namespace ApiShell
         {
             if (isMouseDown) 
             {
-                float dx = args.Touch.X - lastTouch.X;
-                float dy = args.Touch.Y - lastTouch.Y;
-
+                var drag = Point.OffsetFromTo(lastTouch, args.Touch);
+                manipulator.Drag(drag.X, drag.Y);
+             
                 lastTouch = args.Touch;
-
-                manipulator.Drag(dx, dy);
             }
         }
 
