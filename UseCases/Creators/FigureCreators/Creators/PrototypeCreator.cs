@@ -14,7 +14,7 @@ namespace UseCases
             this.prototype = prototype;
         }
 
-        public IFigure CreateFigure(IDrawerFigureVisitor visitor, Snapshot snapshot)
+        public IFigure CreateFigure(IVisitorDrawer visitor, Snapshot snapshot)
         {
             var clone = prototype.CreateClone();
             ApplySnapshotToClone(clone, snapshot);

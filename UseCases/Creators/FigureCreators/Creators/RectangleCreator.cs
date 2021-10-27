@@ -5,7 +5,7 @@ namespace UseCases
     [CreatorKey("Rectangle")]
     class RectangleCreator : IFigureCreator
     {
-        public IFigure CreateFigure(IDrawerFigureVisitor visitor, Snapshot snapshot)
+        public IFigure CreateFigure(IVisitorDrawer visitor, Snapshot snapshot)
         {
             return new Rectngle(visitor, snapshot);
         }
