@@ -2,7 +2,7 @@
 
 namespace UseCases
 {
-    class CenterHandler : HandlerBase
+    class CenterHandler : HandlerActionBase
     {
         public CenterHandler(Size handlerSize) : base(handlerSize)
         { }

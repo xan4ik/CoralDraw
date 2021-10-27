@@ -31,6 +31,7 @@ namespace Core
             else throw new ArgumentException("This figure already in list");
         }
 
+
         public bool NotContains(IFigure figure)
         {
             return !figures.Contains(figure) && figure != this;

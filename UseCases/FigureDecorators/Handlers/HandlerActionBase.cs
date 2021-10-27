@@ -2,10 +2,10 @@
 
 namespace UseCases
 {
-    abstract class HandlerBase : IFigureTouchHandler
+    abstract class HandlerActionBase : IFigureTouchHandler
     {
         protected readonly Size handlerSize;
-        protected HandlerBase(Size handlerSize)
+        protected HandlerActionBase(Size handlerSize)
         {
             this.handlerSize = handlerSize;
         }

@@ -2,7 +2,7 @@
 
 namespace UseCases
 {
-    class HighLeftHandler : HandlerBase
+    class HighLeftHandler : HandlerActionBase
     {
         public HighLeftHandler(Size handlerSize) : base(handlerSize)
         { }

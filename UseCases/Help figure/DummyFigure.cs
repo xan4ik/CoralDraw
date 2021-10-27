@@ -10,7 +10,8 @@ namespace UseCases
             dummy = new DummyFigure();
         }
 
-        private DummyFigure() { }
+        private DummyFigure() 
+        { }
 
         public static bool IsDummy(IFigure figure) 
         {
